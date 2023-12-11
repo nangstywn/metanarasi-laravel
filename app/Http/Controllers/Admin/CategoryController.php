@@ -17,7 +17,6 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = $this->category->paginate();
-        // dd($categories);
         return view('admin.category.index', compact('categories'));
     }
 
@@ -25,10 +24,8 @@ class CategoryController extends Controller
     {
         try {
             $this->category->store($request->data());
-            return response()->json([
-                'status' => 200,
-                'message' => 'Category berhasil disimpan'
-            ], 200);
+            toastr('Category berhasil ditambahkan');
+            return response()->json('success');
         } catch (\Exception $e) {
             return response()->json([
                 'status' => JsonResponse::HTTP_INTERNAL_SERVER_ERROR,

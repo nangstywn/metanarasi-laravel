@@ -2,9 +2,7 @@
 <html lang="en">
 @include('layouts.include.head')
 @stack('styles')
-@php
-    use App\Constant\Jurusan;
-@endphp
+@livewireStyles
 
 <body id="kt_body" class="header-tablet-and-mobile-fixed aside-enabled">
     <!--begin::Main-->
@@ -296,7 +294,7 @@
             </div>
         </div>
     </div>
-
+    @livewireScripts
     @include('layouts.include.script')
     @stack('scripts')
 

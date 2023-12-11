@@ -39,8 +39,8 @@
                     <div class="form-group">
                         <label class="d-flex align-items-center fs-5 fw-bold mb-2" for="nim">Category</label>
                         <input type="text" name="category" class="form-control " placeholder="Input Category"
-                            value="{{ old('category') }}">
-                        <span class="text-danger error-message category""></span>
+                            id="name" value="{{ old('category') }}">
+                        <span class="text-danger fs-15 ps-2" id="categoryError"></span>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -51,7 +51,7 @@
         </div>
     </div>
 </div>
-<script>
+{{-- <script>
     $("#tambah").on('hide.bs.modal', function() {
         alert('The modal is about to be hidden!');
     });
@@ -98,4 +98,4 @@
             }
         });
     });
-</script>
+</script> --}}

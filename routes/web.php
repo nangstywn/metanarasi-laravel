@@ -25,5 +25,17 @@ Route::get('/post', function () {
 });
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => 'auth'], function () {
-    route::resource('category', 'CategoryController');
+    //Category
+    Route::group(['prefix' => 'category', 'as' => 'category.'], function () {
+        route::get('', Category::class)->name('index');
+        route::post('', 'CategoryController@store')->name('store');
+    });
+
+    //Tag
+    Route::group(['prefix' => 'tag', 'as' => 'tag.'], function () {
+        route::get('', Tag::class)->name('index');
+        route::post('', 'TagController@store')->name('store');
+    });
+
+    route::resource('post', 'PostController');
 });

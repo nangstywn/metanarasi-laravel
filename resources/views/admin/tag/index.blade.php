@@ -4,7 +4,7 @@
             <div class="card">
                 <!-- Card header -->
                 <div class="card-header" style="display: flex; align-items:center; justify-content:space-between;">
-                    <h1 class="text-dark">Kategori</h1>
+                    <h1 class="text-dark">Tag</h1>
                 </div>
 
                 <div class="card-body pt-0">
@@ -51,13 +51,12 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @forelse ($categories as $key => $category)
-                                                @if ($category_id == $category->id)
+                                            @forelse ($tags as $key => $tag)
+                                                @if ($tag_id == $tag->id)
                                                     <tr>
                                                         <td>
                                                             <div class="btn-group">
-                                                                <form wire:submit.prevent="updateCategory"
-                                                                    class="d-inline">
+                                                                <form wire:submit.prevent="updateTag" class="d-inline">
                                                                     <button class="btn btn-warning"
                                                                         type="submit">Update</button>
                                                                 </form>
@@ -69,9 +68,9 @@
                                                         <td>
                                                             <div class="form-group">
                                                                 <input type="text" class="form-control"
-                                                                    wire:model="category" placeholder="Input Category">
+                                                                    wire:model="tag" placeholder="Input Tag">
                                                             </div>
-                                                            @error('category')
+                                                            @error('tag')
                                                                 <span class="error text-danger">{{ $message }}</span>
                                                             @enderror
                                                         </td>
@@ -82,15 +81,15 @@
                                                             <div class="btn-group">
 
                                                                 <button
-                                                                    wire:click.prevent="editCategory({{ $category }})"
+                                                                    wire:click.prevent="editTag({{ $tag }})"
                                                                     class="btn btn-sm btn-warning"><i
                                                                         class="fa fa-edit"></i></button>
-                                                                <button wire:click="deleteCategory({{ $category->id }})"
+                                                                <button wire:click="deleteTag({{ $tag->id }})"
                                                                     class="btn btn-sm btn-danger delete"
                                                                     data-id=""><i class="fa fa-trash"></i></button>
                                                             </div>
                                                         </td>
-                                                        <td>{{ $category->name ?? '-' }}</td>
+                                                        <td>{{ $tag->name ?? '-' }}</td>
                                                         </td>
                                                     </tr>
                                                 @endif
@@ -103,7 +102,7 @@
                                     </table>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            {!! $categories->links() !!}
+                                            {!! $tags->links() !!}
                                         </div>
                                     </div>
                                 </div>
@@ -113,13 +112,13 @@
                 </div>
             </div>
         </div>
-        @include('admin.category.create');
+        @include('admin.tag.create');
     </div>
     <script>
         // $('#addBrandModel').appendTo("body")
         $(function() { // let all dom elements are loaded
             $('.tambah').on('hide.bs.modal', function(e) {
-                $("#categoryError").hide()
+                $("#tagError").hide()
             });
         });
         $('.tambah').appendTo("body")
@@ -127,7 +126,7 @@
             e.preventDefault()
             // let csrf = $('meta[name="csrf-token"]').attr('content')
             let name = $('#name').val()
-            let url = "{{ route('admin.category.store') }}"
+            let url = "{{ route('admin.tag.store') }}"
             // $("#categoryError").show()
             $.ajaxSetup({
                 headers: {
@@ -141,10 +140,8 @@
                 processData: false,
                 contentType: false,
                 success: function(data) {
-                    $("#categoryError").hide()
-                    toastr.options.timeOut = 1000;
-                    toastr.success(data.message);
-                    window.location = "{{ route('admin.category.index') }}"
+                    $("#tagError").hide()
+                    window.location = "{{ route('admin.tag.index') }}"
                 },
                 error: function(err) {
                     if (err.status == 422) {
