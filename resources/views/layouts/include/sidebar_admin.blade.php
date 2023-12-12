@@ -64,7 +64,7 @@
 </div>
 
 <div class="menu-item">
-    <a class="menu-link " href="">
+    <a class="menu-link {{ Route::is('admin.post.*') ? 'active' : '' }}" href="{{ route('admin.post.index') }}">
         <span class="menu-icon">
             <span class="svg-icon svg-icon-primary svg-icon-2x">
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"

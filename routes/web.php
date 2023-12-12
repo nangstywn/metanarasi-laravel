@@ -38,4 +38,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     });
 
     route::resource('post', 'PostController');
+
+    Route::group(['prefix' => 'json', 'as' => 'json.'], function () {
+        route::get('/category', 'JsonController@getCategory')->name('category');
+    });
 });

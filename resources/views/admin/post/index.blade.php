@@ -12,7 +12,7 @@
             <div class="card">
                 <!-- Card header -->
                 <div class="card-header" style="display: flex; align-items:center; justify-content:space-between;">
-                    <h1 class="text-dark">Pengajuan Pra Skripsi</h1>
+                    <h1 class="text-dark">Post List</h1>
                 </div>
 
                 <div class="card-body pt-0">
@@ -20,25 +20,29 @@
                         <div class="col">
                             <div class=""
                                 style="display: flex; align-items:center; justify-content:space-between;">
-                                <a href="" class="btn btn-sm btn-primary"><i
+                                <a href="{{ route('admin.post.create') }}"class="btn btn-sm btn-primary"><i
                                         class="fa fa-plus-circle"></i>Tambah</a>
                                 <form action="">
                                     <div class="d-flex align-items-center justify-content-end">
                                         <div class="col pl-0" style="max-width: 200px">
-                                            <select name="status" class="form-select" data-control="select2"
-                                                data-allow-clear="true" data-placeholder="Pilih Status ...">
+                                            <select name="category" class="form-select category" data-control="select2"
+                                                data-allow-clear="true" data-placeholder="Pilih Kategori ...">
                                                 <option value=""></option>
-                                                {{-- @foreach (StatusValidasi::labels() as $key => $val)
-                                                    @if (Request::has('status'))
-                                                        <option value="{{ $key }}"
-                                                            {{ Request::get('status') == $key ? 'selected' : '' }}>
-                                                            {{ $val }}</option>
-                                                    @else
-                                                        <option value="{{ $key }}">{{ $val }}</option>
-                                                    @endif
-                                                @endforeach --}}
+                                                @if (Request::has('category'))
+                                                    <option value="{{ old('category') }}" selected>
+                                                        {{ old('category_text') }}</option>
+                                                @else
+                                                    <option value=""></option>
+                                                @endif
                                             </select>
+                                            <input type="hidden" name="category_text" class="category_text"
+                                                value="{{ old('category_text') }}">
                                         </div>
+                                        <div class="col pl-0" style="max-width: 200px">
+                                            <input type="text" name="q" value="{{ Request::get('q') }}"
+                                                class="form-control" placeholder="Cari Judul">
+                                        </div>
+
                                         <button class="btn btn-sm btn-primary ml-2" type="submit">
                                             <i class="fa fa-filter"></i>
                                         </button>
@@ -70,41 +74,41 @@
                                         <thead>
                                             <tr>
                                                 <th width="50px"></th>
-                                                <th>NIM</th>
-                                                <th>Nama</th>
-                                                <th>Semester</th>
-                                                <th>Pembimbing</th>
-                                                <th>Tanggal</th>
-                                                <th>Status</th>
+                                                <th>Judul</th>
+                                                <th>Konten</th>
+                                                <th>Kategory</th>
+                                                <th>Thumbnail</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-
-                                            <tr>
-                                                <td>
-                                                    <div class="btn-group">
-                                                        <a href="" class="btn btn-sm btn-primary" "><i
+                                            @forelse ($posts as $post)
+                                                <tr>
+                                                    <td>
+                                                        <div class="btn-group">
+                                                            <a href="" class="btn btn-sm btn-primary"><i
                                                                     class="fa fa-eye"></i></a>
                                                             {{-- <a class="btn btn-sm btn-primary" data-bs-toggle="modal"
                                                                 data-bs-target="#detail{{ $data->id_pendaftaran }}"><i
                                                                     class="fa fa-eye"></i></a> --}}
-                                                            <a href=""
-                                                                class="btn btn-sm btn-warning"><i
+                                                            <a href="" class="btn btn-sm btn-warning"><i
                                                                     class="fa fa-edit"></i></a>
                                                             <a href="#" class="btn btn-sm btn-danger delete"
-                                                                data-id=""><i
-                                                                    class="fa fa-trash"></i></a>
-                                                    </div>
-                                                </td>
-                                                <td>sad</td>
-                                                <td>{{ '-' }}</td>
-                                                <td>{{ '-' }}</td>
-                                                <td>{{ '-' }}</td>
-                                                <td>{{ '-' }}
-                                                </td>
-                                                <td>-</td>
-                                            </tr>
-
+                                                                data-id=""><i class="fa fa-trash"></i></a>
+                                                        </div>
+                                                    </td>
+                                                    <td>{{ $post->title ?? '-' }}</td>
+                                                    <td>{{ $post->content ?? '-' }}</td>
+                                                    <td>{{ optional($post->category)->name ?? '-' }}</td>
+                                                    <td><img src="{{ asset('storage/thumb/' . $post->attachment) }}"
+                                                            height="100" alt="">
+                                                        {{-- {{ asset('storage/thumb/' . $post->attachment) }} --}}
+                                                    </td>
+                                                </tr>
+                                            @empty
+                                                <tr>
+                                                    <td colspan="5" class="text-center">Tidak ada data</td>
+                                                </tr>
+                                            @endforelse
                                         </tbody>
                                     </table>
                                     <div class="row">
@@ -120,44 +124,10 @@
             </div>
         </div>
     </div>
-
     <script>
-        // $('.delete').click(function(e) {
-        //     e.preventDefault();
-        //     let id = $(this).attr('data-id');
-        //     var token = $("meta[name='csrf-token']").attr("content");
-        //     Swal.fire({
-        //         title: 'Yakin ?',
-        //         text: "Ingin menghapus data ini ?",
-        //         icon: 'warning',
-        //         showCancelButton: true,
-        //         confirmButtonColor: '#28A745',
-        //         cancelButtonColor: '#DC3545',
-        //         cancelButtonText: 'Tidak, Cancel!',
-        //         confirmButtonText: 'Ya, Hapus Aja!',
-        //         reverseButtons: true
-        //     }).then((result) => {
-        //         if (result.isConfirmed) {
-        //             $.ajax({
-        //                 type: "DELETE",
-        //                 url: `/resource/delete-judul/${id}`,
-        //                 data: {
-        //                     "_token": token
-        //                 },
-        //                 success: function(data) {
-        //                     console.log(data)
-        //                     Swal.fire({
-        //                         icon: 'success',
-        //                         title: data.success,
-        //                         showConfirmButton: false,
-        //                         timer: 1500
-        //                     }).then(function() {
-        //                         location.reload()
-        //                     })
-        //                 }
-        //             });
-        //         }
-        //     })
-        // });
+        $(document).ready(function() {
+            costumSelect2Paginate('...', $('.category'),
+                `{{ route('admin.json.category') }}`);
+        })
     </script>
 @endsection

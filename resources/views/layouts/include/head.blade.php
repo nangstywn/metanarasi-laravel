@@ -39,6 +39,10 @@
             box-sizing: border-box;
         }
 
+        #selection {
+            padding: 10px;
+        }
+
         /* input[type=radio] {
             width: 50%;
 
