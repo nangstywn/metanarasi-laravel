@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
-use App\Repositories\Eloquent\CategoryRepository;
+use App\Repositories\Eloquent\Admin\CategoryRepository;
 use Illuminate\Http\JsonResponse;
 
 class CategoryController extends Controller

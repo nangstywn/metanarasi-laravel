@@ -18,6 +18,11 @@ return new class extends Migration
             $table->unsignedInteger('category_id')->nullable();
             $table->text('content')->nullable();
             $table->string('attachment')->nullable();
+            $table->tinyInteger('favourite')->nullable();
+            $table->tinyInteger('editor_pick')->nullable();
+            $table->tinyInteger('status')->nullable();
+            $table->unsignedInteger('created_by')->nullable();
+            $table->unsignedInteger('updated_by')->nullable();
             $table->timestamps();
         });
     }

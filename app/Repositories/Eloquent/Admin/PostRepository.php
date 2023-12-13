@@ -1,32 +1,31 @@
 <?php
 
-namespace App\Repositories\Eloquent;
+namespace App\Repositories\Eloquent\Admin;
 
 use App\Exceptions\ModelHasReferenceException;
-use App\Models\Category;
+use App\Models\Post;
 
-class CategoryRepository
+class PostRepository
 {
     public function paginate()
     {
-        return Category::latest()->paginate(10);
+        return Post::latest()->paginate(10);
     }
 
     public function find(string $uuid)
     {
-        return Category::findOrFailByUuid($uuid);
+        return Post::findOrFailByUuid($uuid);
     }
 
     public function store(array $data)
     {
-        return Category::create($data);
+        return Post::create($data);
     }
 
     public function update(string $uuid, array $data)
     {
-        $category = $this->find($uuid);
-        dd($category);
-        return $category->update($data);
+        $post = $this->find($uuid);
+        return $post->update($data);
     }
     // public function delete(string $uuid)
     // {

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Repositories\Eloquent\JsonRepository;
+use App\Repositories\Eloquent\Admin\JsonRepository;
 use Illuminate\Http\Request;
 
 class JsonController extends Controller

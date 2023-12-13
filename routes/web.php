@@ -13,13 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'PostController@index');
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/post', function () {
     return view('user.post.index');
 });
@@ -42,4 +40,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::group(['prefix' => 'json', 'as' => 'json.'], function () {
         route::get('/category', 'JsonController@getCategory')->name('category');
     });
+});
+
+Route::group(['prefix' => 'post', 'as' => 'post.'], function () {
+    route::get('', 'PostController@index')->name('index');
 });

@@ -9,18 +9,20 @@
                     <!-- featured post large -->
                     <div class="post featured-post-lg">
                         <div class="details clearfix">
-                            <a href="category.html" class="category-badge">Inspiration</a>
-                            <h2 class="post-title"><a href="/post">5 Easy Ways You Can Turn Future Into
-                                    Success</a></h2>
+                            <a href="category.html"
+                                class="category-badge">{{ optional($favourite->category)->name ?? '-' }}</a>
+                            <h2 class="post-title"><a href="/post">{{ $favourite->title }}</a></h2>
                             <ul class="meta list-inline mb-0">
-                                <li class="list-inline-item"><a href="#">Katen Doe</a></li>
-                                <li class="list-inline-item">29 March 2021</li>
+                                <li class="list-inline-item"><a
+                                        href="#">{{ optional($favourite->creator)->name ?? '-' }}</a></li>
+                                <li class="list-inline-item">
+                                    {{ Carbon\Carbon::parse($favourite->created_at)->isoFormat('DD MMMM Y') }}</li>
                             </ul>
                         </div>
                         <a href="blog-single.html">
                             <div class="thumb rounded">
                                 <div class="inner data-bg-image"
-                                    data-bg-image="{{ asset('') }}assets/images/posts/featured-lg.jpg">
+                                    data-bg-image="{{ asset('storage/thumb/' . $favourite->attachment) }}">
                                 </div>
                             </div>
                         </a>
@@ -140,23 +142,28 @@
                                     </div>
                                 </div>
                                 <!-- post -->
-                                <div class="post post-list-sm circle">
-                                    <div class="thumb circle">
-                                        <a href="blog-single.html">
-                                            <div class="inner">
-                                                <img src="{{ asset('') }}assets/images/posts/tabs-1.jpg"
-                                                    alt="post-title" />
-                                            </div>
-                                        </a>
+                                {{-- @foreach ($editorPicks as $pick)
+                                    <div class="post post-list-sm circle">
+                                        <div class="thumb circle">
+                                            <a href="blog-single.html">
+                                                <div class="inner">
+                                                    <img src="{{ asset('storage/thumb/' . $pick->attachment) }}"
+                                                        alt="post-title" />
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="details clearfix">
+                                            <h6 class="post-title my-0"><a
+                                                    href="blog-single.html">{{ $pick->title ?? '-' }}</a></h6>
+                                            <ul class="meta list-inline mt-1 mb-0">
+                                                <li class="list-inline-item">
+                                                    {{ Carbon\Carbon::parse($pick->created_at)->isoFormat('DD MMMM Y') }}
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                    <div class="details clearfix">
-                                        <h6 class="post-title my-0"><a href="blog-single.html">3 Easy Ways To Make Your
-                                                iPhone Faster</a></h6>
-                                        <ul class="meta list-inline mt-1 mb-0">
-                                            <li class="list-inline-item">29 March 2021</li>
-                                        </ul>
-                                    </div>
-                                </div>
+                                @endforeach --}}
+
                                 <!-- post -->
                                 <div class="post post-list-sm circle">
                                     <div class="thumb circle">
@@ -223,13 +230,14 @@
                                 <!-- post -->
                                 <div class="post">
                                     <div class="thumb rounded">
-                                        <a href="category.html" class="category-badge position-absolute">Lifestyle</a>
+                                        <a href="category.html"
+                                            class="category-badge position-absolute">{{ optional($editorPicks[0]->category)->name ?? '-' }}</a>
                                         <span class="post-format">
                                             <i class="icon-picture"></i>
                                         </span>
                                         <a href="blog-single.html">
                                             <div class="inner">
-                                                <img src="{{ asset('') }}assets/images/posts/editor-lg.jpg"
+                                                <img src="{{ asset('storage/thumb/' . $editorPicks[0]->attachment) }}"
                                                     alt="post-title" />
                                             </div>
                                         </a>
@@ -237,88 +245,43 @@
                                     <ul class="meta list-inline mt-4 mb-0">
                                         <li class="list-inline-item"><a href="#"><img
                                                     src="{{ asset('') }}assets/images/other/author-sm.png"
-                                                    class="author" alt="author" />Katen Doe</a></li>
-                                        <li class="list-inline-item">29 March 2021</li>
+                                                    class="author"
+                                                    alt="author" />{{ optional($editorPicks[0]->creator)->name ?? '-' }}</a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            {{ Carbon\Carbon::parse($editorPicks[0]->created_at)->isoFormat('DD MMMM Y') }}
+                                        </li>
                                     </ul>
-                                    <h5 class="post-title mb-3 mt-3"><a href="blog-single.html">15 Unheard Ways To
-                                            Achieve Greater Walker</a></h5>
+                                    <h5 class="post-title mb-3 mt-3"><a
+                                            href="blog-single.html">{{ $editorPicks[0]->title ?? '-' }}</a></h5>
                                     <p class="excerpt mb-0">A wonderful serenity has taken possession of my entire
                                         soul, like these sweet mornings of spring which I enjoy</p>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <!-- post -->
-                                <div class="post post-list-sm square">
-                                    <div class="thumb rounded">
-                                        <a href="blog-single.html">
-                                            <div class="inner">
-                                                <img src="{{ asset('') }}assets/images/posts/editor-sm-1.jpg"
-                                                    alt="post-title" />
-                                            </div>
-                                        </a>
+                                @foreach ($editorPicks as $pick)
+                                    <div class="post post-list-sm square">
+                                        <div class="thumb rounded">
+                                            <a href="blog-single.html">
+                                                <div class="inner">
+                                                    <img src="{{ asset('storage/thumb/' . $pick->attachment) }}"
+                                                        alt="post-title" />
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="details clearfix">
+                                            <h6 class="post-title my-0"><a
+                                                    href="blog-single.html">{{ $pick->title ?? '-' }}</a></h6>
+                                            <ul class="meta list-inline mt-1 mb-0">
+                                                <li class="list-inline-item">
+                                                    {{ Carbon\Carbon::parse($pick->created_at)->isoFormat('DD MMMM Y') }}
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                    <div class="details clearfix">
-                                        <h6 class="post-title my-0"><a href="blog-single.html">3 Easy Ways To Make
-                                                Your iPhone Faster</a></h6>
-                                        <ul class="meta list-inline mt-1 mb-0">
-                                            <li class="list-inline-item">29 March 2021</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <!-- post -->
-                                <div class="post post-list-sm square">
-                                    <div class="thumb rounded">
-                                        <a href="blog-single.html">
-                                            <div class="inner">
-                                                <img src="{{ asset('') }}assets/images/posts/editor-sm-2.jpg"
-                                                    alt="post-title" />
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="details clearfix">
-                                        <h6 class="post-title my-0"><a href="blog-single.html">An Incredibly Easy
-                                                Method That Works For All</a></h6>
-                                        <ul class="meta list-inline mt-1 mb-0">
-                                            <li class="list-inline-item">29 March 2021</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <!-- post -->
-                                <div class="post post-list-sm square">
-                                    <div class="thumb rounded">
-                                        <a href="blog-single.html">
-                                            <div class="inner">
-                                                <img src="{{ asset('') }}assets/images/posts/editor-sm-3.jpg"
-                                                    alt="post-title" />
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="details clearfix">
-                                        <h6 class="post-title my-0"><a href="blog-single.html">10 Ways To
-                                                Immediately Start Selling Furniture</a></h6>
-                                        <ul class="meta list-inline mt-1 mb-0">
-                                            <li class="list-inline-item">29 March 2021</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <!-- post -->
-                                <div class="post post-list-sm square">
-                                    <div class="thumb rounded">
-                                        <a href="blog-single.html">
-                                            <div class="inner">
-                                                <img src="{{ asset('') }}assets/images/posts/editor-sm-4.jpg"
-                                                    alt="post-title" />
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="details clearfix">
-                                        <h6 class="post-title my-0"><a href="blog-single.html">15 Unheard Ways To
-                                                Achieve Greater Walker</a></h6>
-                                        <ul class="meta list-inline mt-1 mb-0">
-                                            <li class="list-inline-item">29 March 2021</li>
-                                        </ul>
-                                    </div>
-                                </div>
+                                @endforeach
+
                             </div>
                         </div>
                     </div>

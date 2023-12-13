@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories\Eloquent;
+namespace App\Repositories\Eloquent\Admin;
 
 use App\Exceptions\ModelHasReferenceException;
 use App\Models\Category;
