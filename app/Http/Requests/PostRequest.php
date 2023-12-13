@@ -66,11 +66,18 @@ class PostRequest extends FormRequest
 
     public function data()
     {
-        return [
+
+        $data['post'] = [
             'title' => $this->title,
             'category_id' => $this->category,
             'content' => $this->contents,
             'attachment' => $this->getAttachment(),
         ];
+        foreach ($this->tags as $tag) {
+            $data['tags'][] = [
+                'tag_id' => $tag
+            ];
+        }
+        return $data;
     }
 }

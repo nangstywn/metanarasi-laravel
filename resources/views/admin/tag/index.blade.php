@@ -4,7 +4,7 @@
             <div class="card">
                 <!-- Card header -->
                 <div class="card-header" style="display: flex; align-items:center; justify-content:space-between;">
-                    <h1 class="text-dark">Tag</h1>
+                    <h1 class="text-dark">Tag List</h1>
                 </div>
 
                 <div class="card-body pt-0">
@@ -84,9 +84,9 @@
                                                                     wire:click.prevent="editTag({{ $tag }})"
                                                                     class="btn btn-sm btn-warning"><i
                                                                         class="fa fa-edit"></i></button>
-                                                                <button wire:click="deleteTag({{ $tag->id }})"
-                                                                    class="btn btn-sm btn-danger delete"
-                                                                    data-id=""><i class="fa fa-trash"></i></button>
+                                                                <a href="#" class="btn btn-sm btn-danger delete"
+                                                                    id="delete" data-id="{{ $tag->uuid }}"><i
+                                                                        class="fa fa-trash"></i></a>
                                                             </div>
                                                         </td>
                                                         <td>{{ $tag->name ?? '-' }}</td>
@@ -147,7 +147,6 @@
                     if (err.status == 422) {
                         var keys = Object.keys(err.responseJSON.errors);
                         keys.forEach(function(val, key) {
-                            console.log(val);
                             let ErrorId = '#' + val + 'Error';
                             $(ErrorId).show();
                             $(ErrorId).text(err
@@ -157,4 +156,44 @@
                 }
             });
         })
+
+        $('.delete').click(function(e) {
+            // e.preventDefault();
+            let id = $(this).attr('data-id');
+            var token = $("meta[name='csrf-token']").attr("content");
+            let url = "{{ route('admin.tag.delete', ':uuid') }}";
+            url = url.replace(':uuid', id);
+
+            Swal.fire({
+                title: 'Yakin ?',
+                text: "Ingin menghapus data ini ?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#28A745',
+                cancelButtonColor: '#DC3545',
+                cancelButtonText: 'Tidak, Cancel!',
+                confirmButtonText: 'Ya, Hapus Aja!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "DELETE",
+                        url: url,
+                        data: {
+                            "_token": token
+                        },
+                        success: function(data) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: data.success,
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(function() {
+                                location.reload()
+                            })
+                        }
+                    });
+                }
+            })
+        });
     </script>

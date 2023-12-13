@@ -25,4 +25,16 @@ class JsonController extends Controller
         });
         return response()->json($data);
     }
+    public function getTag(Request $request)
+    {
+        $cari = $request->search;
+        $data = $this->json->fetchTag($cari);
+        $data->getCollection()->transform(function ($item) {
+            return [
+                'id' => $item->id,
+                'text' => $item->name,
+            ];
+        });
+        return response()->json($data);
+    }
 }

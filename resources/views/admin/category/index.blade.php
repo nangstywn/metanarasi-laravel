@@ -85,9 +85,9 @@
                                                                     wire:click.prevent="editCategory({{ $category }})"
                                                                     class="btn btn-sm btn-warning"><i
                                                                         class="fa fa-edit"></i></button>
-                                                                <button wire:click="deleteCategory({{ $category->id }})"
-                                                                    class="btn btn-sm btn-danger delete"
-                                                                    data-id=""><i class="fa fa-trash"></i></button>
+                                                                <a href="#" class="btn btn-sm btn-danger delete"
+                                                                    id="delete" data-id="{{ $category->uuid }}"><i
+                                                                        class="fa fa-trash"></i></a>
                                                             </div>
                                                         </td>
                                                         <td>{{ $category->name ?? '-' }}</td>
@@ -128,7 +128,6 @@
             // let csrf = $('meta[name="csrf-token"]').attr('content')
             let name = $('#name').val()
             let url = "{{ route('admin.category.store') }}"
-            // $("#categoryError").show()
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -142,15 +141,12 @@
                 contentType: false,
                 success: function(data) {
                     $("#categoryError").hide()
-                    toastr.options.timeOut = 1000;
-                    toastr.success(data.message);
                     window.location = "{{ route('admin.category.index') }}"
                 },
                 error: function(err) {
                     if (err.status == 422) {
                         var keys = Object.keys(err.responseJSON.errors);
                         keys.forEach(function(val, key) {
-                            console.log(val);
                             let ErrorId = '#' + val + 'Error';
                             $(ErrorId).show();
                             $(ErrorId).text(err
@@ -160,4 +156,44 @@
                 }
             });
         })
+
+        $('.delete').click(function(e) {
+            // e.preventDefault();
+            let id = $(this).attr('data-id');
+            var token = $("meta[name='csrf-token']").attr("content");
+            let url = "{{ route('admin.category.delete', ':uuid') }}";
+            url = url.replace(':uuid', id);
+
+            Swal.fire({
+                title: 'Yakin ?',
+                text: "Ingin menghapus data ini ?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#28A745',
+                cancelButtonColor: '#DC3545',
+                cancelButtonText: 'Tidak, Cancel!',
+                confirmButtonText: 'Ya, Hapus Aja!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "DELETE",
+                        url: url,
+                        data: {
+                            "_token": token
+                        },
+                        success: function(data) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: data.success,
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(function() {
+                                location.reload()
+                            })
+                        }
+                    });
+                }
+            })
+        });
     </script>

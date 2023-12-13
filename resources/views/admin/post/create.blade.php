@@ -12,7 +12,7 @@
                 <div class="card">
                     <div class="card-header" style="display: flex; align-items:center; justify-content:space-between;">
                         <div class="title" align="left">
-                            <h3> Tambah Kategori</h3>
+                            <h3> Tambah Post</h3>
                         </div>
                     </div>
                     <form action="{{ route('admin.post.store') }}" method="POST" enctype="multipart/form-data">
@@ -42,6 +42,23 @@
                                         </select>
                                         <input type="hidden" class="category_text" value="{{ old('category_text') }}">
                                         @error('category')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="input-group mb-4">
+                                    <div class="col-md-12">
+                                        <label class="control-label">Tag</label>
+                                        <select name="tags[]" class="form-control tag" data-placeholder="Pilih Tag"
+                                            multiple="multiple">
+                                            <option value=""></option>
+                                            @if (!empty(old('tag')))
+                                                <option value="{{ old('tag') }}" selected>{{ old('category_text') }}
+                                                </option>
+                                            @endif
+                                        </select>
+                                        <input type="hidden" class="tag_text" value="{{ old('tag_text') }}">
+                                        @error('tag')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
@@ -87,27 +104,31 @@
 
     <script>
         // $('.select2').select2();
-        $(".category").select2({
-            width: 'resolve',
-            ajax: {
-                url: "{{ route('admin.json.category') }}",
-                type: 'GET',
-                dataType: 'json',
-                data: function(param) {
-                    return {
-                        search: param.term
-                    }
-                },
-                delay: 250,
-                processResults: function(data) {
-                    return {
-                        results: $.map(data, function(item) {
-                            return item
-                        })
-                    };
-                },
-                cache: true
-            }
-        });
+        costumSelect2Paginate('...', $('.category'),
+            `{{ route('admin.json.category') }}`);
+        costumSelect2Paginate('...', $('.tag'),
+            `{{ route('admin.json.tag') }}`);
+        // $(".category").select2({
+        //     width: 'resolve',
+        //     ajax: {
+        //         url: "{{ route('admin.json.category') }}",
+        //         type: 'GET',
+        //         dataType: 'json',
+        //         data: function(param) {
+        //             return {
+        //                 search: param.term
+        //             }
+        //         },
+        //         delay: 250,
+        //         processResults: function(data) {
+        //             return {
+        //                 results: $.map(data, function(item) {
+        //                     return item
+        //                 })
+        //             };
+        //         },
+        //         cache: true
+        //     }
+        // });
     </script>
 @endpush

@@ -242,15 +242,26 @@
                                             </div>
                                         </a>
                                     </div>
-                                    <ul class="meta list-inline mt-4 mb-0">
-                                        <li class="list-inline-item"><a href="#"><img
-                                                    src="{{ asset('') }}assets/images/other/author-sm.png"
-                                                    class="author"
-                                                    alt="author" />{{ optional($editorPicks[0]->creator)->name ?? '-' }}</a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            {{ Carbon\Carbon::parse($editorPicks[0]->created_at)->isoFormat('DD MMMM Y') }}
-                                        </li>
+                                    <ul class="meta list-inline mt-4 mb-0 align-items-center justify-content-start"
+                                        style="display: flex; flex-direction:row; gap: 12px;">
+                                        <a href="#" style="display: inline-block">
+                                            <img src="{{ asset('') }}assets/images/other/author-sm.png"
+                                                class="author" alt="author" width="50" />
+                                        </a>
+                                        <div class="">
+                                            <span class="list-inline-item">
+                                                {{ optional($editorPicks[0]->creator)->name ?? '-' }}
+                                            </span>
+                                            <div class="d-flex flex-col">
+                                                <li class="list-inline-item" style="content:none !important;">
+                                                    {{-- {{ Carbon\Carbon::parse($editorPicks[0]->created_at)->isoFormat('DD MMMM Y') }} --}}
+                                                    {{ $editorPicks[0]->created_at->diffForHumans() }}
+                                                </li>
+                                                <li class="list-inline-item">
+                                                    {{ $editorPicks[0]->time_to_read }}
+                                                </li>
+                                            </div>
+                                        </div>
                                     </ul>
                                     <h5 class="post-title mb-3 mt-3"><a
                                             href="blog-single.html">{{ $editorPicks[0]->title ?? '-' }}</a></h5>

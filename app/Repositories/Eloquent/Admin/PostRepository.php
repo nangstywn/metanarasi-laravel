@@ -19,13 +19,14 @@ class PostRepository
 
     public function store(array $data)
     {
-        return Post::create($data);
+        $post = Post::create($data['post']);
+        return $this->storePostTag($post, $data);
     }
 
     public function update(string $uuid, array $data)
     {
         $post = $this->find($uuid);
-        return $post->update($data);
+        return $post->update($post);
     }
     // public function delete(string $uuid)
     // {
@@ -36,4 +37,8 @@ class PostRepository
     //     return $material->delete();
     // }
 
+    public function storePostTag($post, $data)
+    {
+        return $post->tags()->attach($data['tags']);
+    }
 }

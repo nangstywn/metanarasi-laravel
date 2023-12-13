@@ -25,16 +25,14 @@ class CategoryRepository
     public function update(string $uuid, array $data)
     {
         $category = $this->find($uuid);
-        dd($category);
         return $category->update($data);
     }
-    // public function delete(string $uuid)
-    // {
-    //     $material = Material::withCount('ritase')->where('uuid', $uuid)->first();
-    //     if ($material->ritase_count > 0) {
-    //         throw new ModelHasReferenceException('Data material tidak bisa dihapus, karena menjadi referensi data lain');
-    //     }
-    //     return $material->delete();
-    // }
-
+    public function delete(string $uuid)
+    {
+        $category = Category::where('uuid', $uuid)->first();
+        // if ($material->ritase_count > 0) {
+        //     throw new ModelHasReferenceException('Data material tidak bisa dihapus, karena menjadi referensi data lain');
+        // }
+        return $category->delete();
+    }
 }

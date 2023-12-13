@@ -25,7 +25,7 @@ class CategoryController extends Controller
         try {
             $this->category->store($request->data());
             toastr('Category berhasil ditambahkan');
-            return response()->json('success');
+            return response()->json();
         } catch (\Exception $e) {
             return response()->json([
                 'status' => JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
@@ -34,19 +34,30 @@ class CategoryController extends Controller
         }
     }
 
-    public function update(CategoryRequest $request, $uuid)
+    // public function update(CategoryRequest $request, $uuid)
+    // {
+    //     try {
+    //         $this->category->update($uuid, $request->data());
+    //         return response()->json([
+    //             'status' => 200,
+    //             'message' => 'Category berhasil diubah'
+    //         ], 200);
+    //     } catch (\Exception $e) {
+    //         return response()->json([
+    //             'status' => JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
+    //             'message' => 'Terjadi kesalahan, silahkan hubungi admin'
+    //         ], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+    //     }
+    // }
+
+    public function delete($uuid)
     {
         try {
-            $this->category->update($uuid, $request->data());
-            return response()->json([
-                'status' => 200,
-                'message' => 'Category berhasil diubah'
-            ], 200);
+            $this->category->delete($uuid);
+            // toastr('Category berhasil dihapus');
+            return response()->json(['success' => 'Data berhasil dihapus']);
         } catch (\Exception $e) {
-            return response()->json([
-                'status' => JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
-                'message' => 'Terjadi kesalahan, silahkan hubungi admin'
-            ], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+            //throw $th;
         }
     }
 }

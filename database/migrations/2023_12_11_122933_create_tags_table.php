@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('uuid');
             $table->string('name')->nullable();
             $table->string('slug')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -5,6 +5,7 @@
 @livewireStyles
 
 <body id="kt_body" class="header-tablet-and-mobile-fixed aside-enabled">
+    @include('sweetalert::alert', ['cdn' => 'https://cdn.jsdelivr.net/npm/sweetalert2@9'])
     <!--begin::Main-->
     <!--begin::Root-->
     <div class="d-flex flex-column flex-root">

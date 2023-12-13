@@ -23,7 +23,7 @@ class CategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'category' => 'required|unique:categories,name,' . $this->id
+            'category' => 'required|unique:categories,name'
         ];
     }
 

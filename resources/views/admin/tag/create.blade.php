@@ -51,3 +51,10 @@
         </div>
     </div>
 </div>
+<script>
+    $(function() { // let all dom elements are loaded
+        $('.tambah').on('hide.bs.modal', function(e) {
+            $("#tagError").hide()
+        });
+    });
+</script>

@@ -23,6 +23,7 @@ return new class extends Migration
             $table->tinyInteger('status')->nullable();
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('updated_by')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

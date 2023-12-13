@@ -30,7 +30,7 @@ class Category extends Component
 
     public function render()
     {
-        return view('admin.category.index', ['categories' => Data::paginate(5)])
+        return view('admin.category.index', ['categories' => Data::paginate(10)])
             ->extends('layouts.master')->section('content');
     }
 
@@ -55,9 +55,9 @@ class Category extends Component
         $this->category = NULL;
     }
 
-    public function deleteCategory($categoryId)
-    {
-        Data::where('id', $categoryId)->delete();
-        toastr('Kategori berhasil dihapus', 'success');
-    }
+    // public function deleteCategory($categoryId)
+    // {
+    //     Data::where('id', $categoryId)->delete();
+    //     toastr('Kategori berhasil dihapus', 'success');
+    // }
 }

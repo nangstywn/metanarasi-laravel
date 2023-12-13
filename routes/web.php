@@ -27,18 +27,21 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::group(['prefix' => 'category', 'as' => 'category.'], function () {
         route::get('', Category::class)->name('index');
         route::post('', 'CategoryController@store')->name('store');
+        route::delete('{uuid}', 'CategoryController@delete')->name('delete');
     });
 
     //Tag
     Route::group(['prefix' => 'tag', 'as' => 'tag.'], function () {
         route::get('', Tag::class)->name('index');
         route::post('', 'TagController@store')->name('store');
+        route::delete('{uuid}', 'TagController@delete')->name('delete');
     });
 
     route::resource('post', 'PostController');
 
     Route::group(['prefix' => 'json', 'as' => 'json.'], function () {
         route::get('/category', 'JsonController@getCategory')->name('category');
+        route::get('/tag', 'JsonController@getTag')->name('tag');
     });
 });
 

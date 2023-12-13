@@ -51,51 +51,10 @@
         </div>
     </div>
 </div>
-{{-- <script>
-    $("#tambah").on('hide.bs.modal', function() {
-        alert('The modal is about to be hidden!');
-    });
-    $('#submit').on('submit', function(e) {
-        e.preventDefault()
-        $('.text-danger').html('')
-        // $('.submit-create').attr('disabled', true);
-        let url = "{{ route('admin.category.store') }}"
-
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: new FormData(this),
-            processData: false,
-            contentType: false,
-            success: function(data) {
-                $('.text-danger').html('')
-                toastr.options.timeOut = 1000;
-                toastr.success(data.message);
-                window.location = "{{ route('admin.category.index') }}"
-                // return true;
-            },
-            error: function(err) {
-                if (err.status == 422) {
-                    var keys = Object.keys(err.responseJSON.errors);
-                    keys.forEach(function(val, key) {
-                        console.log(val);
-                        $(`[class*="text-danger error-message ${val}"]`).text(err
-                            .responseJSON.errors[val])
-                    });
-                    toastr["error"](err.responseJSON.message);
-                    $(".submit").attr("disabled", false);
-                }
-                if (err.status == 500) {
-                    toastr["error"](err.responseJSON.message);
-                    $(".submit").attr("disabled", false);
-                }
-                if (err.status == 403) {
-                    toastr["error"](err.responseJSON.message);
-                    $(".submit").attr("disabled", false);
-                }
-
-
-            }
+<script>
+    $(function() { // let all dom elements are loaded
+        $('.tambah').on('hide.bs.modal', function(e) {
+            $("#categoryError").hide()
         });
     });
-</script> --}}
+</script>
