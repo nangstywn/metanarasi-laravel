@@ -23,6 +23,7 @@ class PostController extends Controller
     {
         return view('admin.post.create');
     }
+
     public function store(PostRequest $request)
     {
         try {
@@ -32,5 +33,11 @@ class PostController extends Controller
             toastr('Terjadi kesalahan, silahkan hubungi admin', 'error');
         }
         return redirect()->route('admin.post.index');
+    }
+
+    public function edit($uuid)
+    {
+        $post = $this->post->find($uuid);
+        return view('admin.post.edit', compact('post'));
     }
 }

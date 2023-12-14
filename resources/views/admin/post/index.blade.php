@@ -87,10 +87,8 @@
                                                         <div class="btn-group">
                                                             <a href="" class="btn btn-sm btn-primary"><i
                                                                     class="fa fa-eye"></i></a>
-                                                            {{-- <a class="btn btn-sm btn-primary" data-bs-toggle="modal"
-                                                                data-bs-target="#detail{{ $data->id_pendaftaran }}"><i
-                                                                    class="fa fa-eye"></i></a> --}}
-                                                            <a href="" class="btn btn-sm btn-warning"><i
+                                                            <a href="{{ route('admin.post.edit', $post->uuid) }}"
+                                                                class="btn btn-sm btn-warning"><i
                                                                     class="fa fa-edit"></i></a>
                                                             <a href="#" class="btn btn-sm btn-danger delete"
                                                                 data-id=""><i class="fa fa-trash"></i></a>
@@ -99,9 +97,8 @@
                                                     <td>{{ $post->title ?? '-' }}</td>
                                                     <td>{{ $post->content ?? '-' }}</td>
                                                     <td>{{ optional($post->category)->name ?? '-' }}</td>
-                                                    <td><img src="{{ asset('storage/thumb/' . $post->attachment) }}"
-                                                            height="100" alt="">
-                                                        {{-- {{ asset('storage/thumb/' . $post->attachment) }} --}}
+                                                    <td><img src="{{ $post->attachment_url }}" height="100"
+                                                            alt="">
                                                     </td>
                                                 </tr>
                                             @empty

@@ -12,6 +12,7 @@ use App\Models\Tag;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Support\Facades\Storage;
 
 class Post extends Model
 {
@@ -57,12 +58,6 @@ class Post extends Model
 
         $minutes = (int) floor($wordCount / $wpm);
         $seconds = (int) floor($wordCount % $wpm / ($wpm / 60));
-
-        // if ($minutes === 0) {
-        //     return $seconds . " " . Str::of('sec read')->plural($seconds);
-        // } else {
-        //     return $minutes . " " . Str::of('min read')->plural($minutes);
-        // }
         if ($minutes === 0) {
             return $seconds . " sec read";
         } else {
@@ -78,5 +73,24 @@ class Post extends Model
                 return $value;
             }
         );
+    }
+
+    protected function filePath(): string
+    {
+        return 'thumb';
+    }
+
+    public function getAttachmentUrlAttribute()
+    {
+        return $this->getFileUrl($this->attributes['attachment']);
+    }
+
+    protected function getFileUrl($fileName)
+    {
+        // Assuming the file path follows the defined file path structure
+        $filePath = $this->filePath() . '/' . $fileName;
+
+        // Use Storage facade to generate the URL
+        return Storage::url($filePath);
     }
 }
