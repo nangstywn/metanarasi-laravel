@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use App\Repositories\Eloquent\PostRepository;
 use Illuminate\Http\Request;
 
@@ -15,10 +16,22 @@ class PostController extends Controller
 
     public function index()
     {
+        $categories = $this->post->categories();
         $posts = $this->post->fetch();
         $favourite = $this->post->favourite();
         $editorPicks = $this->post->editorPick();
-        // dd($editorPicks);
-        return view('welcome', compact('posts', 'favourite', 'editorPicks'));
+        $populars = $this->post->popular();
+        if (!$favourite) {
+            $favourite = $this->post->getFirst();
+        }
+        return view('welcome', compact('posts', 'favourite', 'editorPicks', 'populars', 'categories'));
+    }
+
+    public function detail($uuid)
+    {
+        $post = $this->post->find($uuid);
+        $categories = $this->post->categories();
+        $this->post->storeVisitor(request()->ip(), $uuid);
+        return view('post.detail', compact('post', 'categories'));
     }
 }

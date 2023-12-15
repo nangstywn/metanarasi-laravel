@@ -37,14 +37,23 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
         route::delete('{uuid}', 'TagController@delete')->name('delete');
     });
 
-    route::resource('post', 'PostController');
+    Route::group(['prefix' => 'post', 'as' => 'post.'], function () {
+        route::get('', 'PostController@index')->name('index');
+        route::get('create', 'PostController@create')->name('create');
+        route::post('', 'PostController@store')->name('store');
+        route::get('{uuid}/edit', 'PostController@edit')->name('edit');
+        route::put('{uuid}', 'PostController@update')->name('update');
+        route::delete('{uuid}', 'PostController@update')->name('update');
+    });
 
     Route::group(['prefix' => 'json', 'as' => 'json.'], function () {
         route::get('/category', 'JsonController@getCategory')->name('category');
         route::get('/tag', 'JsonController@getTag')->name('tag');
+        route::get('/post/update', 'JsonController@updatePost')->name('update-post');
     });
 });
 
 Route::group(['prefix' => 'post', 'as' => 'post.'], function () {
     route::get('', 'PostController@index')->name('index');
+    route::get('detail/{uuid}', 'PostController@detail')->name('detail');
 });

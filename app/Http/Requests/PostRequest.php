@@ -32,7 +32,7 @@ class PostRequest extends FormRequest
     public function withValidator($validator): void
     {
         if ($validator->fails()) {
-            toastr('Data gagal divalidasi', 'error');
+            toastr('Data gagal di validasi', 'error');
         }
     }
 
@@ -43,7 +43,7 @@ class PostRequest extends FormRequest
             'title' => 'judul',
             'category' => 'kategori',
             'contents' => 'konten',
-            'attachment-hidden' => 'thumbnail',
+            'attachment_hidden' => 'thumbnail',
         ];
     }
 

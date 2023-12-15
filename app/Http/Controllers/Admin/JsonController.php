@@ -37,4 +37,19 @@ class JsonController extends Controller
         });
         return response()->json($data);
     }
+
+    public function updatePost(Request $request)
+    {
+        if (array_key_exists('favourite', $request->all())) {
+            $data = [
+                'favourite' => $request->favourite
+            ];
+        } else {
+            $data = [
+                'editor_pick' => $request->pick
+            ];
+        }
+        $data = $this->json->update($request->id, $data);
+        return response()->json($data);
+    }
 }

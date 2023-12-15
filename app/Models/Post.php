@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Visitor;
 
 class Post extends Model
 {
@@ -50,6 +51,10 @@ class Post extends Model
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
+    }
+    public function visitors()
+    {
+        return $this->hasMany(Visitor::class, 'post_id');
     }
 
     private function getEstimateReadingTime($content, $wpm = 200)

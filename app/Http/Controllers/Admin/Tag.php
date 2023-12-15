@@ -30,7 +30,7 @@ class Tag extends Component
 
     public function render()
     {
-        return view('admin.tag.index', ['tags' => Data::paginate(5)])
+        return view('admin.tag.index', ['tags' => Data::paginate(10)])
             ->extends('layouts.master')->section('content');
     }
 

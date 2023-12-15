@@ -7,9 +7,13 @@ use App\Models\Post;
 
 class PostRepository
 {
-    public function paginate()
+    public function paginate($filter)
     {
-        return Post::latest()->paginate(10);
+        return Post::when(isset($filter['category']), function ($q) use ($filter) {
+            $q->where('category_id', $filter['category']);
+        })->when(isset($filter['q']), function ($q) use ($filter) {
+            $q->where('title', 'like', '%' . $filter['q'] . '%');
+        })->latest()->paginate(10);
     }
 
     public function find(string $uuid)

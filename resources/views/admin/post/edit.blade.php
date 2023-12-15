@@ -59,7 +59,7 @@
                                             multiple="multiple">
                                             <option value=""></option>
                                             @if (!empty(old('tags')))
-                                                <option value="{{ old('tag') }}" selected>{{ old('category_text') }}
+                                                <option value="{{ old('tag') }}" selected>{{ old('tag_text') }}
                                                 </option>
                                             @else
                                                 @foreach ($post->tags as $item)
@@ -68,7 +68,8 @@
                                                 @endforeach
                                             @endif
                                         </select>
-                                        <input type="hidden" class="tag_text" value="{{ old('tag_text') }}">
+                                        <input type="hidden" class="tag_text" name="tag_text"
+                                            value="{{ old('tag_text') }}">
                                         @error('tag')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
@@ -77,7 +78,7 @@
                                 <div class="input-group mb-4">
                                     <div class="col-md-12">
                                         <label class="control-label">Konten</label>
-                                        <textarea name="contents" class="form-control" rows="10">{{ old('contents') ?? $post->content }}</textarea>
+                                        <textarea name="contents" class="form-control" rows="10" cols="20" id="summernote">{{ old('contents') ?? $post->content }}</textarea>
                                         @error('content')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
@@ -130,6 +131,9 @@
     <script type="text/javascript" src="{{ asset('assets/admin/js/image-input.js?v=1.5.0') }}"></script>
 
     <script>
+        $(document).ready(function() {
+            $('#summernote').summernote();
+        });
         // $('.select2').select2();
         // $('#submit').on('submit', function(e) {
         //     const val = $('.attachment-hidden').val()
@@ -184,37 +188,10 @@
             };
             imgUpload();
 
-
-
-
-
-
             costumSelect2Paginate('...', $('.category'),
                 `{{ route('admin.json.category') }}`);
             costumSelect2Paginate('...', $('.tag'),
                 `{{ route('admin.json.tag') }}`);
-            // $(".category").select2({
-            //     width: 'resolve',
-            //     ajax: {
-            //         url: "{{ route('admin.json.category') }}",
-            //         type: 'GET',
-            //         dataType: 'json',
-            //         data: function(param) {
-            //             return {
-            //                 search: param.term
-            //             }
-            //         },
-            //         delay: 250,
-            //         processResults: function(data) {
-            //             return {
-            //                 results: $.map(data, function(item) {
-            //                     return item
-            //                 })
-            //             };
-            //         },
-            //         cache: true
-            //     }
-            // });
         });
     </script>
 @endpush

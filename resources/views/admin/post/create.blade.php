@@ -54,7 +54,8 @@
                                                 </option>
                                             @endif
                                         </select>
-                                        <input type="hidden" class="category_text" value="{{ old('category_text') }}">
+                                        <input type="hidden" class="category_text" name="category_text"
+                                            value="{{ old('category_text') }}">
                                         @error('category')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
@@ -66,12 +67,17 @@
                                         <select name="tags[]" class="form-control tag" data-placeholder="Pilih Tag"
                                             multiple="multiple">
                                             <option value=""></option>
+
                                             @if (!empty(old('tags')))
-                                                <option value="{{ old('tag') }}" selected>{{ old('category_text') }}
-                                                </option>
+                                                @foreach (old('tags') as $key => $item)
+                                                    <option value="{{ $item }}" selected>
+                                                        {{ old('tag_text[$key]') }}
+                                                    </option>
+                                                @endforeach
                                             @endif
                                         </select>
-                                        <input type="hidden" class="tag_text" value="{{ old('tag_text') }}">
+                                        <input type="hidden" class="tag_text" name="tag_text[]"
+                                            value="{{ old('tag_text[]') }}">
                                         @error('tags')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
@@ -80,7 +86,7 @@
                                 <div class="input-group mb-4">
                                     <div class="col-md-12">
                                         <label class="control-label">Konten</label>
-                                        <textarea name="contents" class="form-control" rows="10"></textarea>
+                                        <textarea name="contents" class="form-control" rows="10" cols="20" id="summernote"></textarea>
                                         @error('contents')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
@@ -94,13 +100,14 @@
                                                 <label class="image-input withAjax">
                                                     <input type="file" accept="image/png,image/jpeg" max-size="10000000"
                                                         name="attachment">
-                                                    <input type="hidden" name="">
+                                                    <input type="hidden" name="attachment_hidden"
+                                                        class="attachment-hidden">
                                                     <a onclick="removePicture()" class="image-removee d-none">
                                                     </a>
                                                     <img src="" alt="" class="img-preview">
                                                 </label>
                                             </div>
-                                            @error('attachment')
+                                            @error('attachment_hidden')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
@@ -128,6 +135,10 @@
     <script src="{{ asset('assets/admin/js/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
 
     <script>
+        $(document).ready(function() {
+            $('#summernote').summernote();
+        });
+
         function removePicture() {
             $('.img-preview').attr('src', '');
             $('.image-removee').addClass('d-none')
@@ -165,6 +176,17 @@
             `{{ route('admin.json.category') }}`);
         costumSelect2Paginate('...', $('.tag'),
             `{{ route('admin.json.tag') }}`);
+
+        $('.category').on('select2:select', function(e) {
+            $('.category_text').val(e.params.data.text);
+        })
+        let arr = [];
+        $('.tag').on('select2:select', function(e) {
+            arr.push(e.params.data.text)
+            $('.tag_text').each(function(i) {
+                $(this).val(arr[i]);
+            })
+        })
         // $(".category").select2({
         //     width: 'resolve',
         //     ajax: {

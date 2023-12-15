@@ -27,19 +27,19 @@
                                             class="fa fa-plus-circle"></i>Tambah</a>
                                     <form action="">
                                         <div class="d-flex align-items-center justify-content-end">
-                                            <div class="col pl-0" style="max-width: 200px">
+                                            <div class="col pl-0" style="width: 200px">
                                                 <select name="category" class="form-select category" data-control="select2"
                                                     data-allow-clear="true" data-placeholder="Pilih Kategori ...">
                                                     <option value=""></option>
                                                     @if (Request::has('category'))
-                                                        <option value="{{ old('category') }}" selected>
-                                                            {{ old('category_text') }}</option>
+                                                        <option value="{{ Request::get('category') }}" selected>
+                                                            {{ Request::get('category_text') }}</option>
                                                     @else
                                                         <option value=""></option>
                                                     @endif
                                                 </select>
                                                 <input type="hidden" name="category_text" class="category_text"
-                                                    value="{{ old('category_text') }}">
+                                                    value="{{ Request::get('category_text') }}">
                                             </div>
                                             <div class="col pl-0" style="max-width: 200px">
                                                 <input type="text" name="q" value="{{ Request::get('q') }}"
@@ -80,6 +80,8 @@
                                                     <th>Judul</th>
                                                     <th>Konten</th>
                                                     <th>Kategory</th>
+                                                    <th>Favourite</th>
+                                                    <th>Editor Pick</th>
                                                     <th>Thumbnail</th>
                                                 </tr>
                                             </thead>
@@ -98,8 +100,30 @@
                                                             </div>
                                                         </td>
                                                         <td>{{ $post->title ?? '-' }}</td>
-                                                        <td>{{ Str::limit($post->content, 200) ?? '-' }}</td>
+                                                        <td>{!! Str::limit($post->content, 200) ?? '-' !!}</td>
                                                         <td>{{ optional($post->category)->name ?? '-' }}</td>
+                                                        <td>
+                                                            <div class="form-check form-switch">
+                                                                <input class="form-check-input checkbox" name="favourite"
+                                                                    type="checkbox" id="flexSwitchChecked"
+                                                                    {{ $post->favourite == 1 ? 'checked' : '' }} />
+                                                                <label class="form-check-label" for="flexSwitchChecked">
+                                                                </label>
+                                                                <input type="hidden" name="post_id" class="post_id"
+                                                                    value="{{ $post->id }}">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-check form-switch">
+                                                                <input class="form-check-input pick" name="pick"
+                                                                    type="checkbox" id="flexSwitchChecked"
+                                                                    {{ $post->editor_pick == 1 ? 'checked' : '' }} />
+                                                                <label class="form-check-label" for="flexSwitchChecked">
+                                                                </label>
+                                                                <input type="hidden" name="post_id" class="post_id"
+                                                                    value="{{ $post->id }}">
+                                                            </div>
+                                                        </td>
                                                         <td><img src="{{ $post->attachment_url }}" height="100"
                                                                 alt="">
                                                         </td>
@@ -125,9 +149,68 @@
             </div>
         </div>
         <script>
+            $('.checkbox').each(function(e) {
+                $(this).change(function(e) {
+                    let url = "{{ route('admin.json.update-post') }}"
+                    let val, id;
+                    if ($(this).is(':checked')) {
+                        val = 1
+                        id = $(this).parent().find('.post_id').val()
+                        url = url.replace(':uuid', id);
+                    } else {
+                        val = 0
+                        id = $(this).parent().find('.post_id').val()
+                        url = url.replace(':uuid', id);
+                    }
+                    console.log(val, id);
+                    $.ajax({
+                        type: "GET",
+                        url: url,
+                        data: {
+                            favourite: val,
+                            id: id
+                        },
+                        success: function(response) {
+                            console.log(response);
+                        }
+                    });
+                })
+            });
+
+            $('.pick').each(function(e) {
+                $(this).change(function(e) {
+                    let url = "{{ route('admin.json.update-post') }}"
+                    let val, id;
+                    if ($(this).is(':checked')) {
+                        val = 1
+                        id = $(this).parent().find('.post_id').val()
+                        url = url.replace(':uuid', id);
+                    } else {
+                        val = 0
+                        id = $(this).parent().find('.post_id').val()
+                        url = url.replace(':uuid', id);
+                    }
+                    console.log(val, id);
+                    $.ajax({
+                        type: "GET",
+                        url: url,
+                        data: {
+                            pick: val,
+                            id: id
+                        },
+                        success: function(response) {
+                            console.log(response);
+                        }
+                    });
+                })
+            });
             $(document).ready(function() {
                 costumSelect2Paginate('...', $('.category'),
                     `{{ route('admin.json.category') }}`);
+                $('.category').on('select2:select', function(e) {
+                    console.log(e);
+                    $('.category_text').val(e.params.data.text);
+                })
             })
         </script>
     @endsection

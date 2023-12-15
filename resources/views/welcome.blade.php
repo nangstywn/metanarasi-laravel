@@ -9,17 +9,19 @@
                     <!-- featured post large -->
                     <div class="post featured-post-lg">
                         <div class="details clearfix">
-                            <a href="category.html"
+                            <a href="{{ route('post.detail', $favourite->uuid) }}"
                                 class="category-badge">{{ optional($favourite->category)->name ?? '-' }}</a>
-                            <h2 class="post-title"><a href="/post">{{ $favourite->title }}</a></h2>
+                            <h2 class="post-title"><a
+                                    href="{{ route('post.detail', $favourite->uuid) }}">{{ $favourite->title }}</a></h2>
                             <ul class="meta list-inline mb-0">
                                 <li class="list-inline-item"><a
                                         href="#">{{ optional($favourite->creator)->name ?? '-' }}</a></li>
                                 <li class="list-inline-item">
-                                    {{ Carbon\Carbon::parse($favourite->created_at)->isoFormat('DD MMMM Y') }}</li>
+                                    {{ convert_date($favourite->created_at) }}
+                                </li>
                             </ul>
                         </div>
-                        <a href="blog-single.html">
+                        <a href="{{ route('post.detail', $favourite->uuid) }}">
                             <div class="thumb rounded">
                                 <div class="inner data-bg-image"
                                     data-bg-image="{{ asset('storage/thumb/' . $favourite->attachment) }}">
@@ -49,77 +51,26 @@
                             <div aria-labelledby="popular-tab" class="tab-pane fade show active" id="popular"
                                 role="tabpanel">
                                 <!-- post -->
-                                <div class="post post-list-sm circle">
-                                    <div class="thumb circle">
-                                        <a href="blog-single.html">
-                                            <div class="inner">
-                                                <img src="{{ asset('') }}assets/images/posts/tabs-1.jpg"
-                                                    alt="post-title" />
-                                            </div>
-                                        </a>
+                                @foreach ($populars as $popular)
+                                    <div class="post post-list-sm circle">
+                                        <div class="thumb circle">
+                                            <a href="{{ route('post.detail', $popular->uuid) }}">
+                                                <div class="inner" style="width:60px; height:60px; overflow:hidden">
+                                                    <img src="{{ $popular->attachment_url }}" alt="post-title"
+                                                        style="width: 100%; height:auto; object-fit:contain" />
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="details clearfix">
+                                            <h6 class="post-title my-0"><a
+                                                    href="{{ route('post.detail', $popular->uuid) }}">{{ $popular->title }}</a>
+                                            </h6>
+                                            <ul class="meta list-inline mt-1 mb-0">
+                                                <li class="list-inline-item">{{ convert_date($popular->created_at) }}</li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                    <div class="details clearfix">
-                                        <h6 class="post-title my-0"><a href="blog-single.html">3 Easy Ways To Make Your
-                                                iPhone Faster</a></h6>
-                                        <ul class="meta list-inline mt-1 mb-0">
-                                            <li class="list-inline-item">29 March 2021</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <!-- post -->
-                                <div class="post post-list-sm circle">
-                                    <div class="thumb circle">
-                                        <a href="blog-single.html">
-                                            <div class="inner">
-                                                <img src="{{ asset('') }}assets/images/posts/tabs-2.jpg"
-                                                    alt="post-title" />
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="details clearfix">
-                                        <h6 class="post-title my-0"><a href="blog-single.html">An Incredibly Easy Method
-                                                That Works For All</a></h6>
-                                        <ul class="meta list-inline mt-1 mb-0">
-                                            <li class="list-inline-item">29 March 2021</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <!-- post -->
-                                <div class="post post-list-sm circle">
-                                    <div class="thumb circle">
-                                        <a href="blog-single.html">
-                                            <div class="inner">
-                                                <img src="{{ asset('') }}assets/images/posts/tabs-3.jpg"
-                                                    alt="post-title" />
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="details clearfix">
-                                        <h6 class="post-title my-0"><a href="blog-single.html">10 Ways To Immediately Start
-                                                Selling Furniture</a></h6>
-                                        <ul class="meta list-inline mt-1 mb-0">
-                                            <li class="list-inline-item">29 March 2021</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <!-- post -->
-                                <div class="post post-list-sm circle">
-                                    <div class="thumb circle">
-                                        <a href="blog-single.html">
-                                            <div class="inner">
-                                                <img src="{{ asset('') }}assets/images/posts/tabs-4.jpg"
-                                                    alt="post-title" />
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="details clearfix">
-                                        <h6 class="post-title my-0"><a href="blog-single.html">15 Unheard Ways To Achieve
-                                                Greater Walker</a></h6>
-                                        <ul class="meta list-inline mt-1 mb-0">
-                                            <li class="list-inline-item">29 March 2021</li>
-                                        </ul>
-                                    </div>
-                                </div>
+                                @endforeach
                             </div>
                             <!-- recent posts -->
                             <div aria-labelledby="recent-tab" class="tab-pane fade" id="recent" role="tabpanel">
@@ -235,7 +186,7 @@
                                         <span class="post-format">
                                             <i class="icon-picture"></i>
                                         </span>
-                                        <a href="blog-single.html">
+                                        <a href="{{ route('post.detail', $editorPicks[0]->uuid) }}">
                                             <div class="inner">
                                                 <img src="{{ asset('storage/thumb/' . $editorPicks[0]->attachment) }}"
                                                     alt="post-title" />
@@ -254,8 +205,7 @@
                                             </span>
                                             <div class="d-flex flex-col">
                                                 <li class="list-inline-item" style="content:none !important;">
-                                                    {{-- {{ Carbon\Carbon::parse($editorPicks[0]->created_at)->isoFormat('DD MMMM Y') }} --}}
-                                                    {{ $editorPicks[0]->created_at->diffForHumans() }}
+                                                    {{ convert_date($editorPicks[0]->created_at) }}
                                                 </li>
                                                 <li class="list-inline-item">
                                                     {{ $editorPicks[0]->time_to_read }}
@@ -263,34 +213,40 @@
                                             </div>
                                         </div>
                                     </ul>
+                                    @php
+                                        $plain = strip_tags($editorPicks[0]->content);
+                                    @endphp
                                     <h5 class="post-title mb-3 mt-3"><a
-                                            href="blog-single.html">{{ $editorPicks[0]->title ?? '-' }}</a></h5>
-                                    <p class="excerpt mb-0">A wonderful serenity has taken possession of my entire
-                                        soul, like these sweet mornings of spring which I enjoy</p>
+                                            href="{{ route('post.detail', $editorPicks[0]->uuid) }}">{{ $editorPicks[0]->title ?? '-' }}</a>
+                                    </h5>
+                                    <p class="excerpt mb-0">{{ Str::limit($plain, 200) }}</p>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <!-- post -->
                                 @foreach ($editorPicks as $pick)
-                                    <div class="post post-list-sm square">
-                                        <div class="thumb rounded">
-                                            <a href="blog-single.html">
-                                                <div class="inner">
-                                                    <img src="{{ asset('storage/thumb/' . $pick->attachment) }}"
-                                                        alt="post-title" />
-                                                </div>
-                                            </a>
+                                    @if (!$loop->first)
+                                        <div class="post post-list-sm square">
+                                            <div class="thumb rounded">
+                                                <a href="{{ route('post.detail', $favourite->uuid) }}">
+                                                    <div class="inner">
+                                                        <img src="{{ asset('storage/thumb/' . $pick->attachment) }}"
+                                                            alt="post-title" />
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="details clearfix">
+                                                <h6 class="post-title my-0"><a
+                                                        href="{{ route('post.detail', $pick->uuid) }}">{{ $pick->title ?? '-' }}</a>
+                                                </h6>
+                                                <ul class="meta list-inline mt-1 mb-0">
+                                                    <li class="list-inline-item">
+                                                        {{ convert_date($pick->created_at) }}
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
-                                        <div class="details clearfix">
-                                            <h6 class="post-title my-0"><a
-                                                    href="blog-single.html">{{ $pick->title ?? '-' }}</a></h6>
-                                            <ul class="meta list-inline mt-1 mb-0">
-                                                <li class="list-inline-item">
-                                                    {{ Carbon\Carbon::parse($pick->created_at)->isoFormat('DD MMMM Y') }}
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
+                                    @endif
                                 @endforeach
 
                             </div>
@@ -750,28 +706,7 @@
                     <!-- sidebar -->
                     <div class="sidebar">
                         <!-- widget about -->
-                        <div class="widget rounded">
-                            <div class="widget-about data-bg-image text-center"
-                                data-bg-image="{{ asset('') }}assets/images/map-bg.png">
-                                <img src="{{ asset('') }}assets/images/logo.svg" alt="logo" class="mb-4" />
-                                <p class="mb-4">Hello, We’re content writer who is fascinated by content fashion,
-                                    celebrity and lifestyle. We helps clients bring the right content to the right
-                                    people.</p>
-                                <ul class="social-icons list-unstyled list-inline mb-0">
-                                    <li class="list-inline-item"><a href="#"><i class="fab fa-facebook-f"></i></a>
-                                    </li>
-                                    <li class="list-inline-item"><a href="#"><i class="fab fa-twitter"></i></a>
-                                    </li>
-                                    <li class="list-inline-item"><a href="#"><i class="fab fa-instagram"></i></a>
-                                    </li>
-                                    <li class="list-inline-item"><a href="#"><i class="fab fa-pinterest"></i></a>
-                                    </li>
-                                    <li class="list-inline-item"><a href="#"><i class="fab fa-medium"></i></a></li>
-                                    <li class="list-inline-item"><a href="#"><i class="fab fa-youtube"></i></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+                        @include('layouts.partials.about')
 
                         <!-- widget popular posts -->
                         <div class="widget rounded">
@@ -841,23 +776,7 @@
                         </div>
 
                         <!-- widget categories -->
-                        <div class="widget rounded">
-                            <div class="widget-header text-center">
-                                <h3 class="widget-title">Explore Topics</h3>
-                                <img src="{{ asset('') }}assets/images/wave.svg" class="wave" alt="wave" />
-                            </div>
-                            <div class="widget-content">
-                                <ul class="list">
-                                    <li><a href="#">Lifestyle</a><span>(5)</span></li>
-                                    <li><a href="#">Inspiration</a><span>(2)</span></li>
-                                    <li><a href="#">Fashion</a><span>(4)</span></li>
-                                    <li><a href="#">Politic</a><span>(1)</span></li>
-                                    <li><a href="#">Trending</a><span>(7)</span></li>
-                                    <li><a href="#">Culture</a><span>(3)</span></li>
-                                </ul>
-                            </div>
-
-                        </div>
+                        @include('layouts.partials.category')
 
                         <!-- widget newsletter -->
                         <div class="widget rounded">

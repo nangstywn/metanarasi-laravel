@@ -23,6 +23,7 @@
     <link href="{{ asset('assets/admin/plugins/global/plugins.bundle.css') }}" rel=" stylesheet" type="text/css" />
     <link href="{{ asset('assets/admin/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/admin/css/style.css') }}" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 
     <!--end::Global Stylesheets Bundle-->
     <style>

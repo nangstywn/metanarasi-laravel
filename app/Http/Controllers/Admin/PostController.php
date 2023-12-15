@@ -14,9 +14,9 @@ class PostController extends Controller
     {
         $this->post = $post;
     }
-    public function index()
+    public function index(Request $request)
     {
-        $posts = $this->post->paginate();
+        $posts = $this->post->paginate($request->all());
         return view('admin.post.index', compact('posts'));
     }
     public function create()
@@ -43,12 +43,12 @@ class PostController extends Controller
 
     public function update(PostRequest $request, $uuid)
     {
-        try {
+        // try {
             $this->post->update($uuid, $request->data());
             toastr('Post Berhasil diubah!');
-        } catch (\Exception $e) {
-            toastr('Terjadi kesalahan, silahkan hubungi admin', 'error');
-        }
+        // } catch (\Exception $e) {
+        //     toastr('Terjadi kesalahan, silahkan hubungi admin', 'error');
+        // }
         return redirect()->route('admin.post.index');
     }
 }
