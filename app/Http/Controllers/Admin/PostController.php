@@ -40,4 +40,15 @@ class PostController extends Controller
         $post = $this->post->find($uuid);
         return view('admin.post.edit', compact('post'));
     }
+
+    public function update(PostRequest $request, $uuid)
+    {
+        try {
+            $this->post->update($uuid, $request->data());
+            toastr('Post Berhasil diubah!');
+        } catch (\Exception $e) {
+            toastr('Terjadi kesalahan, silahkan hubungi admin', 'error');
+        }
+        return redirect()->route('admin.post.index');
+    }
 }

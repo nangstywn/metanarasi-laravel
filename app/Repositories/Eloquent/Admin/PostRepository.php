@@ -26,7 +26,8 @@ class PostRepository
     public function update(string $uuid, array $data)
     {
         $post = $this->find($uuid);
-        return $post->update($post);
+        return $post->update($data['post']);
+        return $this->updatePostTag($post, $data);
     }
     // public function delete(string $uuid)
     // {
@@ -37,6 +38,10 @@ class PostRepository
     //     return $material->delete();
     // }
 
+    public function updatePostTag($post, $data)
+    {
+        return $post->tags()->sync($data['tags']);
+    }
     public function storePostTag($post, $data)
     {
         return $post->tags()->attach($data['tags']);

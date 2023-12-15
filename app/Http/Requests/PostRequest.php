@@ -24,8 +24,8 @@ class PostRequest extends FormRequest
         return [
             'title' => 'required',
             'category' => 'required',
-            'contents' => 'required|string',
-            'attachment' => 'required',
+            'contents' => 'required',
+            'attachment_hidden' => 'required',
         ];
     }
 
@@ -43,7 +43,7 @@ class PostRequest extends FormRequest
             'title' => 'judul',
             'category' => 'kategori',
             'contents' => 'konten',
-            'attachment' => 'thumbnail',
+            'attachment-hidden' => 'thumbnail',
         ];
     }
 
@@ -56,11 +56,15 @@ class PostRequest extends FormRequest
 
     public function getAttachment()
     {
-        $file = $this->file('attachment');
-        $ext = $file->getClientOriginalExtension();
-        $fileFoto = random_int(100000, 999999) . '.' . $ext;
-        $destination = storage_path('app/public/thumb');
-        $file->move($destination, $fileFoto);
+        if ($this->has('attachment')) {
+            $file = $this->file('attachment');
+            $ext = $file->getClientOriginalExtension();
+            $fileFoto = random_int(100000, 999999) . '.' . $ext;
+            $destination = storage_path('app/public/thumb');
+            $file->move($destination, $fileFoto);
+        } else {
+            $fileFoto = $this->attachment_hidden;
+        }
         return $fileFoto;
     }
 

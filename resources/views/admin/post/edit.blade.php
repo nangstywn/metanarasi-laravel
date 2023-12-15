@@ -15,9 +15,10 @@
                             <h3> Edit Post</h3>
                         </div>
                     </div>
-                    <form action="{{ route('admin.post.update', $post->uuid) }}" method="POST"
+                    <form action="{{ route('admin.post.update', $post->uuid) }}" method="POST" id="submit"
                         enctype="multipart/form-data">
                         @csrf
+                        @method('PUT')
                         <div class="card-body">
                             <div class="form-group">
                                 <div class="input-group mb-4">
@@ -87,27 +88,20 @@
                                         <div class="form-box">
                                             <label for="">Upload Thumbnail</label>
                                             <div class="d-flex flex-wrap input-image-container">
-                                                @if ($post->attachment)
-                                                    <label class="image-input withAjax">
-                                                        <input type="file" accept="image/png,image/jpeg"
-                                                            max-size="10000000" name="attachment">
-                                                        <input type="hidden" name="">
-                                                        <a onclick="removePicture()"
-                                                            class="image-removee {{ isset($post->attachment) ? '' : 'd-none' }}">
-                                                        </a>
-                                                        <img src="{{ $post->attachment_url }}" alt=""
-                                                            class="img-preview">
-                                                    </label>
-                                                @else
-                                                    {{-- <label class="image-input withAjax">
-                                                        <input type="file" accept="image/png,image/jpeg"
-                                                            max-size="10000000" name="attachment">
-                                                        <input type="hidden" name="">
-                                                        <a onclick="removePicture()" class="image-removee d-none"> </a>
-                                                        <img src="" alt="" class="img-preview"> --}}
-                                                @endif
+                                                <label class="image-input withAjax">
+                                                    <input type="file" accept="image/png,image/jpeg" max-size="10000000"
+                                                        name="attachment">
+                                                    <input type="hidden" name="attachment_hidden" class="attachment-hidden"
+                                                        value="{{ $post->attachment ?? '' }}">
+                                                    <a onclick="removePicture()"
+                                                        class="image-removee {{ isset($post->attachment) ? '' : 'd-none' }}">
+                                                    </a>
+                                                    <img src="{{ $post->attachment_url }}" alt=""
+                                                        class="img-preview">
+                                                </label>
                                             </div>
-                                            @error('attachment')
+                                            {{-- <span class="text-danger"></span> --}}
+                                            @error('attachment_hidden')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
@@ -137,11 +131,27 @@
 
     <script>
         // $('.select2').select2();
+        // $('#submit').on('submit', function(e) {
+        //     const val = $('.attachment-hidden').val()
+        //     // const parent = $(this).parents('.image-input')
+        //     const anymore = $('.text-danger')
+        //     if (!val) {
+        //         anymore.html('<span>Thumbnail wajib diisi</span>')
+        //         e.preventDefault()
+        //         toastr.error('Validasi Error');
+        //         // return false;
+        //     }
+        //     if (val) {
+        //         anymore.html('')
+        //     }
+        // })
 
 
         function removePicture() {
             $('.img-preview').attr('src', '');
             $('.image-removee').addClass('d-none')
+            $('.attachment-hidden').val('')
+
         }
         $(document).ready(function() {
             function imgUpload() {
@@ -151,6 +161,7 @@
                 });
 
                 function afterChanged(file, $el) {
+                    $('.attachment-hidden').val(file.name)
                     $('.image-removee').removeClass('d-none')
                     // if (!$el.nextElementSibling) {
                     //     var $remove = document.createElement('button');
