@@ -30,7 +30,6 @@ class PostController extends Controller
 
     public function detail($uuid)
     {
-        // dd(request()->ip(), request()->cookie('visitor_uuid'));
         $post = $this->post->find($uuid);
         $categories = $this->post->categories();
         $visitor = $this->post->storeVisitor(request()->cookie('visitor_uuid'), request()->ip(), $uuid);
