@@ -33,7 +33,6 @@ class PostController extends Controller
         $post = $this->post->find($uuid);
         $categories = $this->post->categories();
         $visitor = $this->post->storeVisitor(request()->cookie('visitor_uuid'), request()->ip(), $uuid);
-        // $c = $this->post->setCookie();
         return response(view('post.detail', compact('post', 'categories')))->cookie('visitor_uuid', $visitor);
     }
 }
