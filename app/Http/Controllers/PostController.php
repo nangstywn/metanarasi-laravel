@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Repositories\Eloquent\PostRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -29,9 +30,12 @@ class PostController extends Controller
 
     public function detail($uuid)
     {
+        // dd(request()->ip(), request()->cookie('visitor_uuid'));
         $post = $this->post->find($uuid);
         $categories = $this->post->categories();
-        $this->post->storeVisitor(request()->ip(), $uuid);
-        return view('post.detail', compact('post', 'categories'));
+        $visitor = $this->post->storeVisitor(request()->cookie('visitor_uuid'), request()->ip(), $uuid);
+        // $c = $this->post->setCookie();
+        // return $a;
+        return response(view('post.detail', compact('post', 'categories')))->cookie('visitor_uuid', $visitor);
     }
 }

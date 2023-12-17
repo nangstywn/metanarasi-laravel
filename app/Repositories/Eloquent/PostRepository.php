@@ -5,6 +5,7 @@ namespace App\Repositories\Eloquent;
 use App\Exceptions\ModelHasReferenceException;
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\Visitor;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Str;
@@ -43,20 +44,35 @@ class PostRepository
         return Category::withCount('posts')->get();
     }
 
-    public function storeVisitor($ip, $uuid)
+    public function storeVisitor($cookie, $ip, $uuid)
     {
         $post = $this->find($uuid);
 
-        $response = new Response();
-        $existing_uuid = Cookie::get('visitor_uuid');
-        dd($existing_uuid);
-        if (!$existing_uuid) {
-            $uuid = Str::uuid();
-            $visitor = $post->visitors()->firstOrCreate(['ip_address' => $ip, 'cookie_uuid' => $uuid]);
-            $cookie = Cookie::make('visitor_uuid', $uuid, 60 * 24 * 365);
-            $response->withCookie($cookie);
+        $response = response('visitor');
+        $existing_uuid = $cookie;
+        $existingVisitor = Visitor::where('post_id', $post->id)->where('ip_address', $ip)->latest()->first();
+        $newUuid = Str::uuid();
+        if ($existingVisitor) {
+            if ($existing_uuid) {
+                if ($existingVisitor->cookie_uuid != $existing_uuid) {
+                    $visitor = $post->visitors()->create(['ip_address' => $ip, 'cookie_uuid' => $newUuid]);
+                    $response = $newUuid;
+                } else {
+                    $response = $existing_uuid;
+                }
+            } else {
+                //new device
+                $visitor = $post->visitors()->create(['ip_address' => $ip, 'cookie_uuid' => $newUuid]);
+                $response = $newUuid;
+            }
         } else {
-            $visitor = $post->visitors()->firstOrCreate(['ip_address' => $ip, 'cookie_uuid' => $existing_uuid]);
+            if ($existing_uuid) {
+                $visitor = $post->visitors()->create(['ip_address' => $ip, 'cookie_uuid' => $existing_uuid]);
+                $response = $existing_uuid;
+            } else {
+                $visitor = $post->visitors()->create(['ip_address' => $ip, 'cookie_uuid' => $newUuid]);
+                $response = $newUuid;
+            }
         }
         return $response;
     }

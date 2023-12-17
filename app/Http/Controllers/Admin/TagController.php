@@ -33,7 +33,7 @@ class TagController extends Controller
         try {
             Tag::create($request->data());
             toastr('Tag Berhasil ditambahkan!');
-            return response()->json('success');
+            return response()->json();
         } catch (\Exception $e) {
             return response()->json([
                 'status' => JsonResponse::HTTP_INTERNAL_SERVER_ERROR,

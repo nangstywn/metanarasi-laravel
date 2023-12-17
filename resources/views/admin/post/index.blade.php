@@ -162,7 +162,6 @@
                         id = $(this).parent().find('.post_id').val()
                         url = url.replace(':uuid', id);
                     }
-                    console.log(val, id);
                     $.ajax({
                         type: "GET",
                         url: url,
@@ -170,9 +169,7 @@
                             favourite: val,
                             id: id
                         },
-                        success: function(response) {
-                            console.log(response);
-                        }
+                        success: function(response) {}
                     });
                 })
             });
@@ -190,7 +187,6 @@
                         id = $(this).parent().find('.post_id').val()
                         url = url.replace(':uuid', id);
                     }
-                    console.log(val, id);
                     $.ajax({
                         type: "GET",
                         url: url,
@@ -198,9 +194,7 @@
                             pick: val,
                             id: id
                         },
-                        success: function(response) {
-                            console.log(response);
-                        }
+                        success: function(response) {}
                     });
                 })
             });
@@ -208,7 +202,6 @@
                 costumSelect2Paginate('...', $('.category'),
                     `{{ route('admin.json.category') }}`);
                 $('.category').on('select2:select', function(e) {
-                    console.log(e);
                     $('.category_text').val(e.params.data.text);
                 })
             })

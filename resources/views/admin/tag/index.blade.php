@@ -121,7 +121,7 @@
                 $("#tagError").hide()
             });
         });
-        $('.tambah').appendTo("body")
+        // $('.tambah').appendTo("body")
         $('#submit').submit(function(e) {
             e.preventDefault()
             // let csrf = $('meta[name="csrf-token"]').attr('content')

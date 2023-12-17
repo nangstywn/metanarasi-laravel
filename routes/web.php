@@ -55,5 +55,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
 Route::group(['prefix' => 'post', 'as' => 'post.'], function () {
     route::get('', 'PostController@index')->name('index');
-    route::get('detail/{uuid}', 'PostController@detail')->name('detail');
+    route::get('{uuid}/detail', 'PostController@detail')->name('detail');
+    route::get('setCookie', 'PostController@setCookie');
+    route::get('getCookie', 'PostController@getCookie');
 });
