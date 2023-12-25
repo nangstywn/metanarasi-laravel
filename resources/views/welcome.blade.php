@@ -7,28 +7,30 @@
             <div class="row gy-4">
                 <div class="col-lg-8">
                     <!-- featured post large -->
-                    <div class="post featured-post-lg">
-                        <div class="details clearfix">
-                            <a href="{{ route('post.detail', $favourite->uuid) }}"
-                                class="category-badge">{{ optional($favourite->category)->name ?? '-' }}</a>
-                            <h2 class="post-title"><a
-                                    href="{{ route('post.detail', $favourite->uuid) }}">{{ $favourite->title }}</a></h2>
-                            <ul class="meta list-inline mb-0">
-                                <li class="list-inline-item"><a
-                                        href="#">{{ optional($favourite->creator)->name ?? '-' }}</a></li>
-                                <li class="list-inline-item">
-                                    {{ convert_date($favourite->created_at) }}
-                                </li>
-                            </ul>
-                        </div>
-                        <a href="{{ route('post.detail', $favourite->uuid) }}">
-                            <div class="thumb rounded">
-                                <div class="inner data-bg-image"
-                                    data-bg-image="{{ asset('storage/thumb/' . $favourite->attachment) }}">
-                                </div>
+                    @if ($favourite)
+                        <div class="post featured-post-lg">
+                            <div class="details clearfix">
+                                <a href="{{ route('post.detail', $favourite->uuid) }}"
+                                    class="category-badge">{{ optional($favourite->category)->name ?? '-' }}</a>
+                                <h2 class="post-title"><a
+                                        href="{{ route('post.detail', $favourite->uuid) }}">{{ $favourite->title }}</a></h2>
+                                <ul class="meta list-inline mb-0">
+                                    <li class="list-inline-item"><a
+                                            href="#">{{ optional($favourite->creator)->name ?? '-' }}</a></li>
+                                    <li class="list-inline-item">
+                                        {{ convert_date($favourite->created_at) }}
+                                    </li>
+                                </ul>
                             </div>
-                        </a>
-                    </div>
+                            <a href="{{ route('post.detail', $favourite->uuid) }}">
+                                <div class="thumb rounded">
+                                    <div class="inner data-bg-image"
+                                        data-bg-image="{{ asset('storage/thumb/' . $favourite->attachment) }}">
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    @endif
 
                 </div>
                 <div class="col-lg-4">
@@ -44,56 +46,58 @@
                                     role="tab" type="button">Recent</button></li>
                         </ul>
                         <!-- tab contents -->
-                        <div class="tab-content" id="postsTabContent">
-                            <!-- loader -->
-                            <div class="lds-dual-ring"></div>
-                            <!-- popular posts -->
-                            <div aria-labelledby="popular-tab" class="tab-pane fade show active" id="popular"
-                                role="tabpanel">
-                                <!-- post -->
-                                @foreach ($populars as $popular)
+                        @if ($popular)
+                            <div class="tab-content" id="postsTabContent">
+                                <!-- loader -->
+                                <div class="lds-dual-ring"></div>
+                                <!-- popular posts -->
+                                <div aria-labelledby="popular-tab" class="tab-pane fade show active" id="popular"
+                                    role="tabpanel">
+                                    <!-- post -->
+                                    @foreach ($populars as $popular)
+                                        <div class="post post-list-sm circle">
+                                            <div class="thumb circle">
+                                                <a href="{{ route('post.detail', $popular->uuid) }}">
+                                                    <div class="inner" style="width:60px; height:60px; overflow:hidden">
+                                                        <img src="{{ $popular->attachment_url }}" alt="post-title"
+                                                            style="width: 100%; height:auto; object-fit:contain" />
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="details clearfix">
+                                                <h6 class="post-title my-0"><a
+                                                        href="{{ route('post.detail', $popular->uuid) }}">{{ $popular->title }}</a>
+                                                </h6>
+                                                <ul class="meta list-inline mt-1 mb-0">
+                                                    <li class="list-inline-item">{{ convert_date($popular->created_at) }}
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                                <!-- recent posts -->
+                                <div aria-labelledby="recent-tab" class="tab-pane fade" id="recent" role="tabpanel">
+                                    <!-- post -->
                                     <div class="post post-list-sm circle">
                                         <div class="thumb circle">
-                                            <a href="{{ route('post.detail', $popular->uuid) }}">
-                                                <div class="inner" style="width:60px; height:60px; overflow:hidden">
-                                                    <img src="{{ $popular->attachment_url }}" alt="post-title"
-                                                        style="width: 100%; height:auto; object-fit:contain" />
+                                            <a href="blog-single.html">
+                                                <div class="inner">
+                                                    <img src="{{ asset('') }}assets/images/posts/tabs-2.jpg"
+                                                        alt="post-title" />
                                                 </div>
                                             </a>
                                         </div>
                                         <div class="details clearfix">
-                                            <h6 class="post-title my-0"><a
-                                                    href="{{ route('post.detail', $popular->uuid) }}">{{ $popular->title }}</a>
-                                            </h6>
+                                            <h6 class="post-title my-0"><a href="blog-single.html">An Incredibly Easy Method
+                                                    That Works For All</a></h6>
                                             <ul class="meta list-inline mt-1 mb-0">
-                                                <li class="list-inline-item">{{ convert_date($popular->created_at) }}</li>
+                                                <li class="list-inline-item">29 March 2021</li>
                                             </ul>
                                         </div>
                                     </div>
-                                @endforeach
-                            </div>
-                            <!-- recent posts -->
-                            <div aria-labelledby="recent-tab" class="tab-pane fade" id="recent" role="tabpanel">
-                                <!-- post -->
-                                <div class="post post-list-sm circle">
-                                    <div class="thumb circle">
-                                        <a href="blog-single.html">
-                                            <div class="inner">
-                                                <img src="{{ asset('') }}assets/images/posts/tabs-2.jpg"
-                                                    alt="post-title" />
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="details clearfix">
-                                        <h6 class="post-title my-0"><a href="blog-single.html">An Incredibly Easy Method
-                                                That Works For All</a></h6>
-                                        <ul class="meta list-inline mt-1 mb-0">
-                                            <li class="list-inline-item">29 March 2021</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <!-- post -->
-                                {{-- @foreach ($editorPicks as $pick)
+                                    <!-- post -->
+                                    {{-- @foreach ($editorPicks as $pick)
                                     <div class="post post-list-sm circle">
                                         <div class="thumb circle">
                                             <a href="blog-single.html">
@@ -115,44 +119,46 @@
                                     </div>
                                 @endforeach --}}
 
-                                <!-- post -->
-                                <div class="post post-list-sm circle">
-                                    <div class="thumb circle">
-                                        <a href="blog-single.html">
-                                            <div class="inner">
-                                                <img src="{{ asset('') }}assets/images/posts/tabs-4.jpg"
-                                                    alt="post-title" />
-                                            </div>
-                                        </a>
+                                    <!-- post -->
+                                    <div class="post post-list-sm circle">
+                                        <div class="thumb circle">
+                                            <a href="blog-single.html">
+                                                <div class="inner">
+                                                    <img src="{{ asset('') }}assets/images/posts/tabs-4.jpg"
+                                                        alt="post-title" />
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="details clearfix">
+                                            <h6 class="post-title my-0"><a href="blog-single.html">15 Unheard Ways To
+                                                    Achieve
+                                                    Greater Walker</a></h6>
+                                            <ul class="meta list-inline mt-1 mb-0">
+                                                <li class="list-inline-item">29 March 2021</li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                    <div class="details clearfix">
-                                        <h6 class="post-title my-0"><a href="blog-single.html">15 Unheard Ways To Achieve
-                                                Greater Walker</a></h6>
-                                        <ul class="meta list-inline mt-1 mb-0">
-                                            <li class="list-inline-item">29 March 2021</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <!-- post -->
-                                <div class="post post-list-sm circle">
-                                    <div class="thumb circle">
-                                        <a href="blog-single.html">
-                                            <div class="inner">
-                                                <img src="{{ asset('') }}assets/images/posts/tabs-3.jpg"
-                                                    alt="post-title" />
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="details clearfix">
-                                        <h6 class="post-title my-0"><a href="blog-single.html">10 Ways To Immediately
-                                                Start Selling Furniture</a></h6>
-                                        <ul class="meta list-inline mt-1 mb-0">
-                                            <li class="list-inline-item">29 March 2021</li>
-                                        </ul>
+                                    <!-- post -->
+                                    <div class="post post-list-sm circle">
+                                        <div class="thumb circle">
+                                            <a href="blog-single.html">
+                                                <div class="inner">
+                                                    <img src="{{ asset('') }}assets/images/posts/tabs-3.jpg"
+                                                        alt="post-title" />
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="details clearfix">
+                                            <h6 class="post-title my-0"><a href="blog-single.html">10 Ways To Immediately
+                                                    Start Selling Furniture</a></h6>
+                                            <ul class="meta list-inline mt-1 mb-0">
+                                                <li class="list-inline-item">29 March 2021</li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -174,84 +180,85 @@
                         <h3 class="section-title">Editor’s Pick</h3>
                         <img src="{{ asset('') }}assets/images/wave.svg" class="wave" alt="wave" />
                     </div>
-
-                    <div class="padding-30 rounded bordered">
-                        <div class="row gy-5">
-                            <div class="col-sm-6">
-                                <!-- post -->
-                                <div class="post">
-                                    <div class="thumb rounded">
-                                        <a href="category.html"
-                                            class="category-badge position-absolute">{{ optional($editorPicks[0]->category)->name ?? '-' }}</a>
-                                        <span class="post-format">
-                                            <i class="icon-picture"></i>
-                                        </span>
-                                        <a href="{{ route('post.detail', $editorPicks[0]->uuid) }}">
-                                            <div class="inner">
-                                                <img src="{{ asset('storage/thumb/' . $editorPicks[0]->attachment) }}"
-                                                    alt="post-title" />
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <ul class="meta list-inline mt-4 mb-0 align-items-center justify-content-start"
-                                        style="display: flex; flex-direction:row; gap: 12px;">
-                                        <a href="#" style="display: inline-block">
-                                            <img src="{{ asset('') }}assets/images/other/author-sm.png"
-                                                class="author" alt="author" width="50" />
-                                        </a>
-                                        <div class="">
-                                            <span class="list-inline-item">
-                                                {{ optional($editorPicks[0]->creator)->name ?? '-' }}
+                    @if ($editorPicks)
+                        <div class="padding-30 rounded bordered">
+                            <div class="row gy-5">
+                                <div class="col-sm-6">
+                                    <!-- post -->
+                                    <div class="post">
+                                        <div class="thumb rounded">
+                                            <a href="category.html"
+                                                class="category-badge position-absolute">{{ optional($editorPicks[0]->category)->name ?? '-' }}</a>
+                                            <span class="post-format">
+                                                <i class="icon-picture"></i>
                                             </span>
-                                            <div class="d-flex flex-col">
-                                                <li class="list-inline-item" style="content:none !important;">
-                                                    {{ convert_date($editorPicks[0]->created_at) }}
-                                                </li>
-                                                <li class="list-inline-item">
-                                                    {{ $editorPicks[0]->time_to_read }}
-                                                </li>
-                                            </div>
+                                            <a href="{{ route('post.detail', $editorPicks[0]->uuid) }}">
+                                                <div class="inner">
+                                                    <img src="{{ asset('storage/thumb/' . $editorPicks[0]->attachment) }}"
+                                                        alt="post-title" />
+                                                </div>
+                                            </a>
                                         </div>
-                                    </ul>
-                                    @php
-                                        $plain = strip_tags($editorPicks[0]->content);
-                                    @endphp
-                                    <h5 class="post-title mb-3 mt-3"><a
-                                            href="{{ route('post.detail', $editorPicks[0]->uuid) }}">{{ $editorPicks[0]->title ?? '-' }}</a>
-                                    </h5>
-                                    <p class="excerpt mb-0">{{ Str::limit($plain, 200) }}</p>
+                                        <ul class="meta list-inline mt-4 mb-0 align-items-center justify-content-start"
+                                            style="display: flex; flex-direction:row; gap: 12px;">
+                                            <a href="#" style="display: inline-block">
+                                                <img src="{{ asset('') }}assets/images/other/author-sm.png"
+                                                    class="author" alt="author" width="50" />
+                                            </a>
+                                            <div class="">
+                                                <span class="list-inline-item">
+                                                    {{ optional($editorPicks[0]->creator)->name ?? '-' }}
+                                                </span>
+                                                <div class="d-flex flex-col">
+                                                    <li class="list-inline-item" style="content:none !important;">
+                                                        {{ convert_date($editorPicks[0]->created_at) }}
+                                                    </li>
+                                                    <li class="list-inline-item">
+                                                        {{ $editorPicks[0]->time_to_read }}
+                                                    </li>
+                                                </div>
+                                            </div>
+                                        </ul>
+                                        @php
+                                            $plain = strip_tags($editorPicks[0]->content);
+                                        @endphp
+                                        <h5 class="post-title mb-3 mt-3"><a
+                                                href="{{ route('post.detail', $editorPicks[0]->uuid) }}">{{ $editorPicks[0]->title ?? '-' }}</a>
+                                        </h5>
+                                        <p class="excerpt mb-0">{{ Str::limit($plain, 200) }}</p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <!-- post -->
+                                    @foreach ($editorPicks as $pick)
+                                        @if (!$loop->first)
+                                            <div class="post post-list-sm square">
+                                                <div class="thumb rounded">
+                                                    <a href="{{ route('post.detail', $favourite->uuid) }}">
+                                                        <div class="inner">
+                                                            <img src="{{ asset('storage/thumb/' . $pick->attachment) }}"
+                                                                alt="post-title" />
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div class="details clearfix">
+                                                    <h6 class="post-title my-0"><a
+                                                            href="{{ route('post.detail', $pick->uuid) }}">{{ $pick->title ?? '-' }}</a>
+                                                    </h6>
+                                                    <ul class="meta list-inline mt-1 mb-0">
+                                                        <li class="list-inline-item">
+                                                            {{ convert_date($pick->created_at) }}
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        @endif
+                                    @endforeach
+
                                 </div>
                             </div>
-                            <div class="col-sm-6">
-                                <!-- post -->
-                                @foreach ($editorPicks as $pick)
-                                    @if (!$loop->first)
-                                        <div class="post post-list-sm square">
-                                            <div class="thumb rounded">
-                                                <a href="{{ route('post.detail', $favourite->uuid) }}">
-                                                    <div class="inner">
-                                                        <img src="{{ asset('storage/thumb/' . $pick->attachment) }}"
-                                                            alt="post-title" />
-                                                    </div>
-                                                </a>
-                                            </div>
-                                            <div class="details clearfix">
-                                                <h6 class="post-title my-0"><a
-                                                        href="{{ route('post.detail', $pick->uuid) }}">{{ $pick->title ?? '-' }}</a>
-                                                </h6>
-                                                <ul class="meta list-inline mt-1 mb-0">
-                                                    <li class="list-inline-item">
-                                                        {{ convert_date($pick->created_at) }}
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    @endif
-                                @endforeach
-
-                            </div>
                         </div>
-                    </div>
+                    @endif
 
                     <div class="spacer" data-height="50"></div>
 

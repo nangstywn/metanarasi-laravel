@@ -61,7 +61,7 @@ class PostRepository
                     $response = $existing_uuid;
                 }
             } else {
-                //new device
+                //new devicesss
                 $visitor = $post->visitors()->create(['ip_address' => $ip, 'cookie_uuid' => $newUuid]);
                 $response = $newUuid;
             }
