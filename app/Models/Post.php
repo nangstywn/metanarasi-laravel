@@ -14,6 +14,7 @@ use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Visitor;
+use Illuminate\Support\Facades\App;
 
 class Post extends Model
 {
@@ -82,12 +83,20 @@ class Post extends Model
 
     protected function filePath(): string
     {
-        return 'thumb';
+        return 'post/thumb';
     }
 
     public function getAttachmentUrlAttribute()
     {
         return $this->getFileUrl($this->attributes['attachment']);
+    }
+    public function fileSystem()
+    {
+        if (App::environment(['staging', 'production'])) {
+            return 's3';
+        } else {
+            return 'public';
+        }
     }
 
     protected function getFileUrl($fileName)
@@ -96,6 +105,6 @@ class Post extends Model
         $filePath = $this->filePath() . '/' . $fileName;
 
         // Use Storage facade to generate the URL
-        return Storage::url($filePath);
+        return Storage::disk($this->fileSystem())->url($filePath);
     }
 }

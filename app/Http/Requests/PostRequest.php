@@ -3,6 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class PostRequest extends FormRequest
 {
@@ -56,16 +59,34 @@ class PostRequest extends FormRequest
 
     public function getAttachment()
     {
-        if ($this->has('attachment')) {
-            $file = $this->file('attachment');
-            $ext = $file->getClientOriginalExtension();
-            $fileFoto = random_int(100000, 999999) . '.' . $ext;
-            $destination = storage_path('app/public/thumb');
-            $file->move($destination, $fileFoto);
-        } else {
-            $fileFoto = $this->attachment_hidden;
+        // if ($this->has('attachment')) {
+        //     $file = $this->file('attachment');
+        //     $ext = $file->getClientOriginalExtension();
+        //     $fileFoto = random_int(100000, 999999) . '.' . $ext;
+        //     $destination = storage_path('app/public/thumb');
+        //     $file->move($destination, $fileFoto);
+        // } else {
+        //     $fileFoto = $this->attachment_hidden;
+        // }
+        // return $fileFoto;
+        try {
+            if ($this->has('attachment')) {
+                $file = $this->file('attachment');
+                $ext = $file->getClientOriginalExtension();
+                $fileFoto = random_int(100000, 999999) . '.' . $ext;
+                $destination = 'post/thumb/' . $fileFoto;
+                if (App::environment(['staging', 'production'])) {
+                    Storage::disk('s3')->put($destination, file_get_contents($file), 'public');
+                } else {
+                    Storage::disk('public')->put($destination, file_get_contents($file), 'public');
+                }
+            } else {
+                $fileFoto = $this->attachment_hidden;
+            }
+            return $fileFoto;
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
         }
-        return $fileFoto;
     }
 
     public function data()

@@ -46,7 +46,7 @@
                                     role="tab" type="button">Recent</button></li>
                         </ul>
                         <!-- tab contents -->
-                        @if (empty($populars))
+                        @if (!empty($populars))
                             <div class="tab-content" id="postsTabContent">
                                 <!-- loader -->
                                 <div class="lds-dual-ring"></div>
@@ -180,7 +180,7 @@
                         <h3 class="section-title">Editor’s Pick</h3>
                         <img src="{{ asset('') }}assets/images/wave.svg" class="wave" alt="wave" />
                     </div>
-                    @if (empty($editorPicks))
+                    @if (!empty($editorPicks))
                         <div class="padding-30 rounded bordered">
                             <div class="row gy-5">
                                 <div class="col-sm-6">
