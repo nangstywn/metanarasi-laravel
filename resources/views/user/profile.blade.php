@@ -255,7 +255,7 @@
                                     <div class="row">
                                         <!--begin::Col-->
                                         <div class="col-lg-6 fv-row">
-                                            <input type="text" name="fname" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="First name" value="{{ $user->name ?? '-' }}" />
+                                            <input type="text" name="name" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="First name" value="{{ $user->name ?? '-' }}" />
                                         </div>
                                         <!--end::Col-->
                                         <!--begin::Col-->

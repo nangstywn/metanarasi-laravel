@@ -11,4 +11,8 @@ class UserController extends Controller
         $user = User::find(auth()->id());
         return view('user.profile', compact('user'));
     }
+
+    public function store(){
+        
+    }
 }
