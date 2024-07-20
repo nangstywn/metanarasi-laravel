@@ -15,7 +15,7 @@
                         <!--begin: Pic-->
                         <div class="me-7 mb-4">
                             <div class="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative">
-                                <img src="{{ asset('') }}assets/admin/media/avatars/150-26.jpg" alt="image" />
+                                <img src="{{ $user->photo_url }}" alt="{{ $user->photo }}" style="object-fit: cover"/>
                                 <div class="position-absolute translate-middle bottom-0 start-100 mb-6 bg-success rounded-circle border border-4 border-white h-20px w-20px"></div>
                             </div>
                         </div>
@@ -213,8 +213,9 @@
                 <!--begin::Content-->
                 <div id="kt_account_profile_details" class="collapse show">
                     <!--begin::Form-->
-                    <form id="kt_account_profile_details_form" class="form" action="{{ route('profile.store') }}" method="POST">
+                    <form class="form" action="{{ route('profile.update', $user->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
+                        @method('PUT')
                         <!--begin::Card body-->
                         <div class="card-body border-top p-9">
                             <!--begin::Input group-->
@@ -229,13 +230,19 @@
                                         <label class="image-input withAjax" style="width: 140px !important;">
                                             <input type="file" accept="image/png,image/jpeg" max-size="10000000"
                                                 name="attachment">
-                                            <input type="hidden" name="attachment_hidden"
-                                                class="attachment-hidden">
-                                            <a onclick="removePicture()" class="image-removee d-none">
+                                            <input type="hidden" name="attachment_hidden" class="attachment-hidden"
+                                                value="{{ $user->photo ?? '' }}">
+                                            <a onclick="removePicture()"
+                                                class="image-removee {{ isset($user->photo) ? '' : 'd-none' }}">
                                             </a>
-                                            <img src="" alt="" class="img-preview">
+                                            <img src="{{ $user->photo_url }}" alt=""
+                                                class="img-preview">
                                         </label>
                                     </div>
+                                    {{-- <span class="text-danger"></span> --}}
+                                    @error('attachment_hidden')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                     <!--end::Image input-->
                                     <!--begin::Hint-->
                                     <div class="form-text">Allowed file types: png, jpg, jpeg.</div>
@@ -292,6 +299,19 @@
                                 <!--begin::Col-->
                                 <div class="col-lg-8 fv-row">
                                     <input type="tel" name="phone" class="form-control form-control-lg form-control-solid" placeholder="Phone number" value="044 3276 454 935" />
+                                </div>
+                                <!--end::Col-->
+                            </div>
+                            <div class="row mb-6">
+                                <!--begin::Label-->
+                                <label class="col-lg-4 col-form-label fw-bold fs-6">
+                                    <span class="required">Email</span>
+                                    <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Phone number must be active"></i>
+                                </label>
+                                <!--end::Label-->
+                                <!--begin::Col-->
+                                <div class="col-lg-8 fv-row">
+                                    <input type="email" name="email" class="form-control form-control-lg form-control-solid" placeholder="Phone number" value="{{ $user->email ?? '-' }}" />
                                 </div>
                                 <!--end::Col-->
                             </div>

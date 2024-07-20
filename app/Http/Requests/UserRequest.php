@@ -3,6 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class UserRequest extends FormRequest
 {
@@ -33,10 +36,9 @@ class UserRequest extends FormRequest
                 $file = $this->file('attachment');
                 $ext = $file->getClientOriginalExtension();
                 $fileFoto = random_int(100000, 999999) . '.' . $ext;
-                $destination = 'post/thumb/' . $fileFoto;
+                $destination = 'user/' . $fileFoto;
                 if (App::environment(['staging', 'production'])) {
                     Storage::disk('s3')->put($destination, $fileFoto);
-                    // Storage::disk('s3')->put($destination, file_get_contents($file), 'public');
                 } else {
                     Storage::disk('public')->put($destination, file_get_contents($file), 'public');
                 }
@@ -50,6 +52,11 @@ class UserRequest extends FormRequest
     }
 
     public function data(){
-        
+        return [
+            'name' => $this->name,
+            'username' => $this->username,
+            'email' => $this->email,
+            'photo' => $this->getAttachment()
+        ];
     }
 }

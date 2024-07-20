@@ -259,7 +259,7 @@
                                                 <!--begin::Avatar-->
                                                 <div class="symbol symbol-50px me-5">
                                                     <img alt="Logo"
-                                                        src="{{ asset('assets/admin/media/avatars/150-26.jpg') }}" />
+                                                        src="{{ Auth::user()->photo_url ?? '' }}" />
                                                 </div>
                                                 <div class="d-flex flex-column">
                                                     <div class="fw-bolder d-flex align-items-center fs-5">

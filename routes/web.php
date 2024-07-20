@@ -62,5 +62,5 @@ Route::group(['prefix' => 'post', 'as' => 'post.'], function () {
 
 Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {    
     route::get('', 'UserController@profile')->name('profile');
-    route::get('store', 'UserController@store')->name('store');
+    route::put('{id}', 'UserController@store')->name('update');
 });

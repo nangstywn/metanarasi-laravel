@@ -74,7 +74,7 @@ class PostRequest extends FormRequest
                 $file = $this->file('attachment');
                 $ext = $file->getClientOriginalExtension();
                 $fileFoto = random_int(100000, 999999) . '.' . $ext;
-                $destination = 'post/thumb/' . $fileFoto;
+                $destination = 'thumb/' . $fileFoto;
                 if (App::environment(['staging', 'production'])) {
                     Storage::disk('s3')->put($destination, $fileFoto);
                     // Storage::disk('s3')->put($destination, file_get_contents($file), 'public');
