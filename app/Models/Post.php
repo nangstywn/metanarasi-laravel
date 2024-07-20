@@ -83,7 +83,7 @@ class Post extends Model
 
     protected function filePath(): string
     {
-        return 'post/thumb';
+        return 'thumb';
     }
 
     public function getAttachmentUrlAttribute()

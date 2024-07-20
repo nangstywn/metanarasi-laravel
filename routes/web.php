@@ -59,3 +59,8 @@ Route::group(['prefix' => 'post', 'as' => 'post.'], function () {
     route::get('setCookie', 'PostController@setCookie');
     route::get('getCookie', 'PostController@getCookie');
 });
+
+Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {    
+    route::get('', 'UserController@profile')->name('profile');
+    route::get('store', 'UserController@store')->name('store');
+});

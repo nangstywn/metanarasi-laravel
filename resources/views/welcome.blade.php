@@ -60,7 +60,7 @@
                                                 <a href="{{ route('post.detail', $popular->uuid) }}">
                                                     <div class="inner" style="width:60px; height:60px; overflow:hidden">
                                                         <img src="{{ $popular->attachment_url }}" alt="post-title"
-                                                            style="width: 100%; height:auto; object-fit:contain" />
+                                                            style="width: 100%; height: 100%; object-fit: cover;" />
                                                     </div>
                                                 </a>
                                             </div>

@@ -15,6 +15,7 @@
 <script src="{{ asset('assets/admin/js/custom/apps/chat/chat.js') }}"></script>
 <script src="{{ asset('assets/admin/js/custom/modals/create-app.js') }}"></script>
 <script src="{{ asset('assets/admin/js/custom/modals/upgrade-plan.js') }}"></script>
+<script src="{{ asset('assets/admin/js/custom/account/settings/profile-details.js') }}"></script>
 <!--begin::Page Custom Javascript(modal)-->
 <script src="{{ asset('assets/admin/js/custom/modals/new-address.js') }}"></script>
 <script src="{{ asset('assets/admin/js/custom/widgets.js') }}"></script>
