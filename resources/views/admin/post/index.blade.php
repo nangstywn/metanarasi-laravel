@@ -125,19 +125,19 @@
                                                             </div>
                                                         </td>
                                                         <td><img src="{{ $post->attachment_url }}" height="100"
-                                                                alt="">
+                                                                width="100" alt="">
                                                         </td>
                                                     </tr>
                                                 @empty
                                                     <tr>
-                                                        <td colspan="5" class="text-center">Tidak ada data</td>
+                                                        <td colspan="7" class="text-center">Tidak ada data</td>
                                                     </tr>
                                                 @endforelse
                                             </tbody>
                                         </table>
                                         <div class="row">
                                             <div class="col-md-12">
-                                                {{-- {!! $pendaftarans->links() !!} --}}
+                                                {!! $posts->links() !!}
                                             </div>
                                         </div>
                                     </div>

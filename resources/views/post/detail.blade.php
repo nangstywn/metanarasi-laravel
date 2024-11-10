@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Home')
+@section('title', $post->title)
 @section('content')
     <!-- site wrapper -->
     <div class="site-wrapper">
@@ -103,55 +103,7 @@
                         <div class="spacer" data-height="50"></div>
 
                         <!-- section header -->
-                        <div class="section-header">
-                            <h3 class="section-title">Comments (3)</h3>
-                            <img src="{{ asset('') }}assets/images/wave.svg" class="wave" alt="wave" />
-                        </div>
-                        <!-- post comments -->
-                        <div class="comments bordered padding-30 rounded">
-
-                            <ul class="comments">
-                                <!-- comment item -->
-                                <li class="comment rounded">
-                                    <div class="thumb">
-                                        <img src="{{ asset('') }}assets/images/other/comment-1.png" alt="John Doe" />
-                                    </div>
-                                    <div class="details">
-                                        <h4 class="name"><a href="#">John Doe</a></h4>
-                                        <span class="date">Jan 08, 2021 14:41 pm</span>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam vitae odio ut
-                                            tortor fringilla cursus sed quis odio.</p>
-                                        <a href="#" class="btn btn-default btn-sm">Reply</a>
-                                    </div>
-                                </li>
-                                <!-- comment item -->
-                                <li class="comment child rounded">
-                                    <div class="thumb">
-                                        <img src="{{ asset('') }}assets/images/other/comment-2.png" alt="John Doe" />
-                                    </div>
-                                    <div class="details">
-                                        <h4 class="name"><a href="#">Helen Doe</a></h4>
-                                        <span class="date">Jan 08, 2021 14:41 pm</span>
-                                        <p>Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit
-                                            amet adipiscing sem neque sed ipsum.</p>
-                                        <a href="#" class="btn btn-default btn-sm">Reply</a>
-                                    </div>
-                                </li>
-                                <!-- comment item -->
-                                <li class="comment rounded">
-                                    <div class="thumb">
-                                        <img src="{{ asset('') }}assets/images/other/comment-3.png" alt="John Doe" />
-                                    </div>
-                                    <div class="details">
-                                        <h4 class="name"><a href="#">Anna Doe</a></h4>
-                                        <span class="date">Jan 08, 2021 14:41 pm</span>
-                                        <p>Cras ultricies mi eu turpis hendrerit fringilla. Vestibulum ante ipsum primis in
-                                            faucibus orci luctus et ultrices posuere cubilia.</p>
-                                        <a href="#" class="btn btn-default btn-sm">Reply</a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
+                        @include('post.comment')
 
                         <div class="spacer" data-height="50"></div>
 
@@ -163,8 +115,8 @@
                         <!-- comment form -->
                         <div class="comment-form rounded bordered padding-30">
 
-                            <form id="comment-form" class="comment-form" method="post">
-
+                            <form id="comment-form" class="comment-form" method="POST">
+                                @csrf
                                 <div class="messages"></div>
 
                                 <div class="row">
@@ -172,39 +124,40 @@
                                     <div class="column col-md-12">
                                         <!-- Comment textarea -->
                                         <div class="form-group">
-                                            <textarea name="InputComment" id="InputComment" class="form-control" rows="4"
-                                                placeholder="Your comment here..." required="required"></textarea>
+                                            <textarea name="comment" id="InputComment" class="form-control" rows="4" placeholder="Your comment here..."></textarea>
+                                            <span class="text-danger error-message comment"></span>
                                         </div>
                                     </div>
 
-                                    <div class="column col-md-6">
+                                    {{-- <div class="column col-md-6">
                                         <!-- Email input -->
                                         <div class="form-group">
                                             <input type="email" class="form-control" id="InputEmail" name="InputEmail"
                                                 placeholder="Email address" required="required">
                                         </div>
-                                    </div>
+                                    </div> --}}
 
-                                    <div class="column col-md-6">
+                                    {{-- <div class="column col-md-6">
                                         <!-- Name input -->
                                         <div class="form-group">
                                             <input type="text" class="form-control" name="InputWeb" id="InputWeb"
                                                 placeholder="Website" required="required">
                                         </div>
-                                    </div>
+                                    </div> --}}
 
                                     <div class="column col-md-12">
                                         <!-- Email input -->
                                         <div class="form-group">
-                                            <input type="text" class="form-control" id="InputName" name="InputName"
-                                                placeholder="Your name" required="required">
+                                            <input type="text" name="name" class="form-control" id="InputName"
+                                                name="InputName" placeholder="Your name">
+                                            <span class="text-danger error-message name"></span>
                                         </div>
                                     </div>
 
                                 </div>
 
                                 <button type="submit" name="submit" id="submit" value="Submit"
-                                    class="btn btn-default">Submit</button><!-- Submit Button -->
+                                    class="btn btn-default">Submit</button>
 
                             </form>
                         </div>
@@ -462,5 +415,46 @@
             </div>
         </div>
 
-    </div><!-- end site wrapper -->
+    </div>
 @endsection
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#comment-form').on('submit', function(e) {
+                e.preventDefault();
+                $('.text-danger').html('')
+                const postId = '{{ $post->uuid }}';
+
+                let url = '{{ route('resource.comment', ':uuid') }}';
+                url = url.replace(':uuid', postId);
+
+                $.ajax({
+                    url: url,
+                    method: 'POST',
+                    data: $(this).serialize(),
+                    success: function(data) {
+                        $('.text-danger').html('')
+                        $('#comment').html(data);
+                    },
+                    error: function(err) {
+                        console.log(err);
+                        if (err.status == 422) {
+                            var keys = Object.keys(err.responseJSON.errors);
+                            keys.forEach(function(val, key) {
+                                $(`[class*="text-danger error-message ${val}"]`)
+                                    .text(
+                                        err
+                                        .responseJSON.errors[val])
+                            });
+                            toastr["error"](err.responseJSON.message);
+                        }
+                        if (err.responseJSON.status == 500) {
+                            toastr["error"](err.responseJSON.message);
+                        }
+                    }
+
+                });
+            })
+        });
+    </script>
+@endpush

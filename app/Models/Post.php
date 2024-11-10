@@ -9,8 +9,8 @@ use App\Models\Category;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Tag;
+use App\Models\Comment;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Visitor;
@@ -56,6 +56,11 @@ class Post extends Model
     public function visitors()
     {
         return $this->hasMany(Visitor::class, 'post_id');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 
     private function getEstimateReadingTime($content, $wpm = 200)

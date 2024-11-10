@@ -4,6 +4,7 @@ namespace App\Repositories\Eloquent;
 
 use App\Exceptions\ModelHasReferenceException;
 use App\Models\Category;
+use App\Models\Comment;
 use App\Models\Post;
 use App\Models\Visitor;
 use Illuminate\Http\Response;
@@ -44,6 +45,12 @@ class PostRepository
         return Category::withCount('posts')->get();
     }
 
+    public function getComments()
+    {
+        return Comment::with('post')->get();
+    }
+
+
     public function storeVisitor($cookie, $ip, $uuid)
     {
         $post = $this->find($uuid);
@@ -75,6 +82,12 @@ class PostRepository
             }
         }
         return $response;
+    }
+
+    public function storeComment($data, $id)
+    {
+        $post = $this->find($id);
+        return $post->comments()->create($data);
     }
     // public function delete(string $uuid)
     // {

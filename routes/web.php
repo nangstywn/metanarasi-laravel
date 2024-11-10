@@ -60,7 +60,11 @@ Route::group(['prefix' => 'post', 'as' => 'post.'], function () {
     route::get('getCookie', 'PostController@getCookie');
 });
 
-Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {    
+Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
     route::get('', 'UserController@profile')->name('profile');
     route::put('{id}', 'UserController@store')->name('update');
+});
+
+Route::group(['prefix' => 'resource', 'as' => 'resource.'], function () {
+    route::post('{uuid}/comment', 'ResourceController@comment')->name('comment');
 });
