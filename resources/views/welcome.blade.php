@@ -687,7 +687,7 @@
                                                     {{ convert_date($popular->created_at) }}
                                                 </li>
                                                 <li class="list-inline-item">
-                                                    <span>{{ $favourite->visitors->count() . ' views' }}</span>
+                                                    <span>{{ $popular->visitors->count() . ' views' }}</span>
                                                 </li>
                                             </ul>
                                         </div>

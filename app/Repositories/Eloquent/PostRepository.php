@@ -45,9 +45,9 @@ class PostRepository
         return Category::withCount('posts')->get();
     }
 
-    public function getComments()
+    public function getComments($postId)
     {
-        return Comment::with('post')->get();
+        return Comment::with('post')->where('post_id', $postId)->get();
     }
 
 
@@ -59,25 +59,12 @@ class PostRepository
         $existing_uuid = $cookie;
         $existingVisitor = Visitor::where('post_id', $post->id)->where('ip_address', $ip)->latest()->first();
         $newUuid = Str::uuid();
-        if ($existingVisitor) {
+        if (!$existingVisitor) {
             if ($existing_uuid) {
-                if ($existingVisitor->cookie_uuid != $existing_uuid) {
-                    $visitor = $post->visitors()->create(['ip_address' => $ip, 'cookie_uuid' => $newUuid]);
-                    $response = $newUuid;
-                } else {
-                    $response = $existing_uuid;
-                }
-            } else {
-                //new devicesss
-                $visitor = $post->visitors()->create(['ip_address' => $ip, 'cookie_uuid' => $newUuid]);
-                $response = $newUuid;
-            }
-        } else {
-            if ($existing_uuid) {
-                $visitor = $post->visitors()->create(['ip_address' => $ip, 'cookie_uuid' => $existing_uuid]);
+                $post->visitors()->create(['ip_address' => $ip, 'cookie_uuid' => $existing_uuid]);
                 $response = $existing_uuid;
             } else {
-                $visitor = $post->visitors()->create(['ip_address' => $ip, 'cookie_uuid' => $newUuid]);
+                $post->visitors()->create(['ip_address' => $ip, 'cookie_uuid' => $newUuid]);
                 $response = $newUuid;
             }
         }

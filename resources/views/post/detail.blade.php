@@ -435,6 +435,8 @@
                     success: function(data) {
                         $('.text-danger').html('')
                         $('#comment').html(data);
+                        $('#InputComment').val('')
+                        $('#InputName').val('')
                     },
                     error: function(err) {
                         console.log(err);

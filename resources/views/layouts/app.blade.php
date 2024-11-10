@@ -72,7 +72,7 @@
                         <!-- menus -->
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item dropdown active">
-                                <a class="nav-link dropdown-toggle" href="index.html">Home</a>
+                                <a class="nav-link dropdown-toggle" href="{{ route('home') }}">Home</a>
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="index.html">Magazine</a></li>
                                     <li><a class="dropdown-item" href="personal.html">Personal</a></li>
