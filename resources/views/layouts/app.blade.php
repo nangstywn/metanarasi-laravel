@@ -71,21 +71,21 @@
                     <div class="collapse navbar-collapse">
                         <!-- menus -->
                         <ul class="navbar-nav mr-auto">
-                            <li class="nav-item dropdown active">
+                            <li class="nav-item dropdown {{ Route::is('home') ? 'active' : '' }}">
                                 <a class="nav-link dropdown-toggle" href="{{ route('home') }}">Home</a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="index.html">Magazine</a></li>
-                                    <li><a class="dropdown-item" href="personal.html">Personal</a></li>
-                                    <li><a class="dropdown-item" href="personal-alt.html">Personal Alt</a></li>
-                                    <li><a class="dropdown-item" href="minimal.html">Minimal</a></li>
-                                    <li><a class="dropdown-item" href="classic.html">Classic</a></li>
+                                    <li><a class="dropdown-item" href="#">Magazine</a></li>
+                                    <li><a class="dropdown-item" href="#">Personal</a></li>
+                                    <li><a class="dropdown-item" href="#">Personal Alt</a></li>
+                                    <li><a class="dropdown-item" href="#">Minimal</a></li>
+                                    <li><a class="dropdown-item" href="#">Classic</a></li>
                                 </ul>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="category.html">Lifestyle</a>
+                                <a class="nav-link" href="#">Lifestyle</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="category.html">Inspiration</a>
+                                <a class="nav-link" href="#">Inspiration</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#">Pages</a>
@@ -107,12 +107,18 @@
                     <div class="header-right">
                         <!-- social icons -->
                         <ul class="social-icons list-unstyled list-inline mb-0">
-                            <li class="list-inline-item"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                            <li class="list-inline-item"><a href="#"><i class="fab fa-twitter"></i></a></li>
-                            <li class="list-inline-item"><a href="#"><i class="fab fa-instagram"></i></a></li>
-                            <li class="list-inline-item"><a href="#"><i class="fab fa-pinterest"></i></a></li>
-                            <li class="list-inline-item"><a href="#"><i class="fab fa-medium"></i></a></li>
-                            <li class="list-inline-item"><a href="#"><i class="fab fa-youtube"></i></a></li>
+                            <li class="list-inline-item"><a href="https://www.facebook.com/"><i
+                                        class="fab fa-facebook-f"></i></a></li>
+                            <li class="list-inline-item"><a href="https://www.x.com/"><i class="fab fa-twitter"></i></a>
+                            </li>
+                            <li class="list-inline-item"><a href="https://www.instagram.com/"><i
+                                        class="fab fa-instagram"></i></a></li>
+                            <li class="list-inline-item"><a href="https://www.pinterest.com/"><i
+                                        class="fab fa-pinterest"></i></a></li>
+                            <li class="list-inline-item"><a href="https://www.medium.com/"><i
+                                        class="fab fa-medium"></i></a></li>
+                            <li class="list-inline-item"><a href="https://www.youtube.com/"><i
+                                        class="fab fa-youtube"></i></a></li>
                         </ul>
                         <!-- header buttons -->
                         <div class="header-buttons">

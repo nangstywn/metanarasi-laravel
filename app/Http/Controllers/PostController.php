@@ -34,6 +34,7 @@ class PostController extends Controller
         $categories = $this->post->categories();
         $visitor = $this->post->storeVisitor(request()->cookie('visitor_uuid'), request()->ip(), $uuid);
         $comments = $this->post->getComments($post->id);
-        return response(view('post.detail', compact('post', 'categories', 'comments')))->cookie('visitor_uuid', $visitor);
+        $populars = $this->post->popular();
+        return response(view('post.detail', compact('post', 'categories', 'comments', 'populars')))->cookie('visitor_uuid', $visitor);
     }
 }

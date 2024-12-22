@@ -25,12 +25,13 @@ services:
         image: mysql:5.7
         container_name: laravel_db
         environment:
-            MYSQL_ROOT_PASSWORD: root_password # Set a root password for MySQL
+            MYSQL_USER: root
+            MYSQL_PASSWORD: password # Set a root password for MySQL
             MYSQL_DATABASE: metanarasi
         volumes:
             - dbdata:/var/lib/mysql
         ports:
-            - "3306:3306"
+            - "8306:3306"
         networks:
             - laravel
 
