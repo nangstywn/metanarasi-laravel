@@ -71,8 +71,8 @@
                     <div class="collapse navbar-collapse">
                         <!-- menus -->
                         <ul class="navbar-nav mr-auto">
-                            <li class="nav-item dropdown {{ Route::is('home') ? 'active' : '' }}">
-                                <a class="nav-link dropdown-toggle" href="{{ route('home') }}">Home</a>
+                            <li class="nav-item dropdown {{ Route::is('post.*') ? 'active' : '' }}">
+                                <a class="nav-link dropdown-toggle" href="{{ route('post.index') }}">Posts</a>
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="#">Magazine</a></li>
                                     <li><a class="dropdown-item" href="#">Personal</a></li>

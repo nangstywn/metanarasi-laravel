@@ -218,12 +218,12 @@
                     <div class="spacer" data-height="50"></div>
 
                     <!-- section header -->
-                    <div class="section-header">
+                    {{-- <div class="section-header">
                         <h3 class="section-title">Trending</h3>
                         <img src="{{ asset('') }}assets/images/wave.svg" class="wave" alt="wave" />
-                    </div>
+                    </div> --}}
 
-                    <div class="padding-30 rounded bordered">
+                    {{-- <div class="padding-30 rounded bordered">
                         <div class="row gy-5">
                             <div class="col-sm-6">
                                 <!-- post large -->
@@ -352,12 +352,12 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="spacer" data-height="50"></div>
 
                     <!-- section header -->
-                    <div class="section-header">
+                    {{-- <div class="section-header">
                         <h3 class="section-title">Inspiration</h3>
                         <img src="{{ asset('') }}assets/images/wave.svg" class="wave" alt="wave" />
                         <div class="slick-arrows-top">
@@ -366,9 +366,9 @@
                             <button type="button" data-role="none" class="carousel-topNav-next slick-custom-buttons"
                                 aria-label="Next"><i class="icon-arrow-right"></i></button>
                         </div>
-                    </div>
+                    </div> --}}
 
-                    <div class="row post-carousel-twoCol post-carousel">
+                    {{-- <div class="row post-carousel-twoCol post-carousel">
                         <!-- post -->
                         <div class="post post-over-content col-md-6">
                             <div class="details clearfix">
@@ -429,7 +429,7 @@
                                 </div>
                             </a>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="spacer" data-height="50"></div>
 
@@ -667,7 +667,7 @@
                         @include('layouts.partials.category')
 
                         <!-- widget newsletter -->
-                        <div class="widget rounded">
+                        {{-- <div class="widget rounded">
                             <div class="widget-header text-center">
                                 <h3 class="widget-title">Newsletter</h3>
                                 <img src="{{ asset('') }}assets/images/wave.svg" class="wave" alt="wave" />
@@ -684,7 +684,7 @@
                                 <span class="newsletter-privacy text-center mt-3">By signing up, you agree to our
                                     <a href="#">Privacy Policy</a></span>
                             </div>
-                        </div>
+                        </div> --}}
 
                         <!-- widget post carousel -->
                         <div class="widget rounded">
