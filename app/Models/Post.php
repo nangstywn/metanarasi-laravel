@@ -14,12 +14,22 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Visitor;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Support\Facades\App;
 
 class Post extends Model
 {
-    use HasFactory, WithUuid, SoftDeletes;
+    use HasFactory, WithUuid, SoftDeletes, Sluggable;
     protected $guarded = ['id'];
+
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'title'
+            ]
+        ];
+    }
 
     public function creator()
     {
