@@ -113,8 +113,10 @@
                                     <div class="col-md-12">
                                         <label class="control-label">Status Aktif</label>
                                         <div class="form-check form-switch">
+                                            <input type="hidden" name="is_active" value=0>
                                             <input class="form-check-input pick" name="is_active" type="checkbox"
-                                                id="flexSwitchChecked" {{ $post->is_active == 1 ? 'checked' : '' }} />
+                                                value="1" id="flexSwitchChecked"
+                                                {{ $post->is_active == 1 ? 'checked' : '' }} />
                                             <label class="form-check-label" for="flexSwitchChecked">
                                             </label>
                                         </div>

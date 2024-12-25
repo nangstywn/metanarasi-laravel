@@ -97,9 +97,10 @@ class PostRequest extends FormRequest
             'title' => $this->title,
             'category_id' => $this->category,
             'content' => $this->contents,
+            'is_active' => $this->is_active,
             'attachment' => $this->getAttachment(),
         ];
-        foreach ($this->tags as $tag) {
+        foreach ($this->tags ?? [] as $tag) {
             $data['tags'][] = [
                 'tag_id' => $tag
             ];

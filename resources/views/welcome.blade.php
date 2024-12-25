@@ -10,10 +10,10 @@
                     @if ($favourite)
                         <div class="post featured-post-lg">
                             <div class="details clearfix">
-                                <a href="{{ route('post.detail', $favourite->uuid) }}"
+                                <a href="{{ route('post.detail', $favourite->slug) }}"
                                     class="category-badge">{{ optional($favourite->category)->name ?? '-' }}</a>
                                 <h2 class="post-title"><a
-                                        href="{{ route('post.detail', $favourite->uuid) }}">{{ $favourite->title }}</a></h2>
+                                        href="{{ route('post.detail', $favourite->slug) }}">{{ $favourite->title }}</a></h2>
                                 <ul class="meta list-inline mb-0">
                                     <li class="list-inline-item"><a
                                             href="#">{{ optional($favourite->creator)->name ?? '-' }}</a></li>
@@ -25,7 +25,7 @@
                                     </li>
                                 </ul>
                             </div>
-                            <a href="{{ route('post.detail', $favourite->uuid) }}">
+                            <a href="{{ route('post.detail', $favourite->slug) }}">
                                 <div class="thumb rounded">
                                     <div class="inner data-bg-image"
                                         data-bg-image="{{ asset('storage/thumb/' . $favourite->attachment) }}">
@@ -60,7 +60,7 @@
                                     @foreach ($populars as $popular)
                                         <div class="post post-list-sm circle">
                                             <div class="thumb circle">
-                                                <a href="{{ route('post.detail', $popular->uuid) }}">
+                                                <a href="{{ route('post.detail', $popular->slug) }}">
                                                     <div class="inner" style="width:60px; height:60px; overflow:hidden">
                                                         <img src="{{ $popular->attachment_url }}" alt="post-title"
                                                             style="width: 100%; height: 100%; object-fit: cover;" />
@@ -69,7 +69,7 @@
                                             </div>
                                             <div class="details clearfix">
                                                 <h6 class="post-title my-0"><a
-                                                        href="{{ route('post.detail', $popular->uuid) }}">{{ $popular->title }}</a>
+                                                        href="{{ route('post.detail', $popular->slug) }}">{{ $popular->title }}</a>
                                                 </h6>
                                                 <ul class="meta list-inline mt-1 mb-0">
                                                     <li class="list-inline-item">{{ convert_date($popular->created_at) }}
@@ -85,7 +85,7 @@
                                     @foreach ($posts->take(4) as $post)
                                         <div class="post post-list-sm circle">
                                             <div class="thumb circle">
-                                                <a href="{{ route('post.detail', $post->uuid) }}">
+                                                <a href="{{ route('post.detail', $post->slug) }}">
                                                     <div class="inner" style="width:60px; height:60px; overflow:hidden">
                                                         <img src="{{ $post->attachment_url }}" alt="post-title"
                                                             style="width: 100%; height: 100%; object-fit: cover;" />
@@ -137,7 +137,7 @@
                                             <span class="post-format">
                                                 <i class="icon-picture"></i>
                                             </span>
-                                            <a href="{{ route('post.detail', $editorPicks[0]->uuid) }}">
+                                            <a href="{{ route('post.detail', $editorPicks[0]->slug) }}">
                                                 <div class="inner">
                                                     <img src="{{ asset('storage/thumb/' . $editorPicks[0]->attachment) }}"
                                                         alt="post-title" />
@@ -168,7 +168,7 @@
                                             $plain = strip_tags($editorPicks[0]->content);
                                         @endphp
                                         <h5 class="post-title mb-3 mt-3"><a
-                                                href="{{ route('post.detail', $editorPicks[0]->uuid) }}">{{ $editorPicks[0]->title ?? '-' }}</a>
+                                                href="{{ route('post.detail', $editorPicks[0]->slug) }}">{{ $editorPicks[0]->title ?? '-' }}</a>
                                         </h5>
                                         <p class="excerpt mb-0">{{ Str::limit($plain, 200) }}</p>
                                     </div>
@@ -179,7 +179,7 @@
                                         @if (!$loop->first)
                                             <div class="post post-list-sm square">
                                                 <div class="thumb rounded">
-                                                    <a href="{{ route('post.detail', $favourite->uuid) }}">
+                                                    <a href="{{ route('post.detail', $pick->slug) }}">
                                                         <div class="inner">
                                                             <img src="{{ asset('storage/thumb/' . $pick->attachment) }}"
                                                                 alt="post-title" />
@@ -188,7 +188,7 @@
                                                 </div>
                                                 <div class="details clearfix">
                                                     <h6 class="post-title my-0"><a
-                                                            href="{{ route('post.detail', $pick->uuid) }}">{{ $pick->title ?? '-' }}</a>
+                                                            href="{{ route('post.detail', $pick->slug) }}">{{ $pick->title ?? '-' }}</a>
                                                     </h6>
                                                     <ul class="meta list-inline mt-1 mb-0">
                                                         <li class="list-inline-item">

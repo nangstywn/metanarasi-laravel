@@ -26,6 +26,7 @@ return new class extends Migration
             $table->tinyInteger('is_active')->nullable();
             $table->tinyInteger('status')->nullable();
             $table->unsignedInteger('viewer')->nullable();
+            $table->datetime('submitted_at')->nullable();
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('updated_by')->nullable();
             $table->softDeletes();

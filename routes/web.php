@@ -58,7 +58,7 @@ Route::group(['prefix' => 'post', 'as' => 'post.'], function () {
     route::get('', 'PostController@index')->name('index');
     route::get('create', 'PostController@create')->name('create');
     route::post('', 'PostController@store')->name('store');
-    route::get('{uuid}/detail', 'PostController@detail')->name('detail');
+    route::get('/{slug}', 'PostController@detail')->name('detail');
     route::get('setCookie', 'PostController@setCookie');
     route::get('getCookie', 'PostController@getCookie');
 });

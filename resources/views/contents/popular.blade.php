@@ -8,7 +8,7 @@
         @foreach ($populars->take(4) as $popular)
             <div class="post post-list-sm circle">
                 <div class="thumb circle">
-                    <a href="{{ route('post.detail', $popular->uuid) }}">
+                    <a href="{{ route('post.detail', $popular->slug) }}">
                         <div class="inner" style="width:60px; height:60px; overflow:hidden">
                             <img src="{{ $popular->attachment_url }}" alt="post-title"
                                 style="width: 100%; height: 100%; object-fit: cover;" />
@@ -17,7 +17,7 @@
                 </div>
                 <div class="details clearfix">
                     <h6 class="post-title my-0"><a
-                            href="{{ route('post.detail', $popular->uuid) }}">{{ $popular->title }}</a>
+                            href="{{ route('post.detail', $popular->slug) }}">{{ $popular->title }}</a>
                     </h6>
                     <ul class="meta list-inline mt-1 mb-0">
                         <li class="list-inline-item">

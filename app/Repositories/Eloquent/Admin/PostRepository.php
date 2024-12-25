@@ -4,6 +4,8 @@ namespace App\Repositories\Eloquent\Admin;
 
 use App\Exceptions\ModelHasReferenceException;
 use App\Models\Post;
+use Exception;
+use Illuminate\Database\Eloquent\MissingAttributeException;
 
 class PostRepository
 {
@@ -30,6 +32,9 @@ class PostRepository
     public function update(string $uuid, array $data)
     {
         $post = $this->find($uuid);
+        if (is_null($post->category_id) && !isset($data['post']['category_id'])) {
+            throw new \Exception('Kategori harus diisi', 404);
+        }
         $post->update($data['post']);
         if (isset($data['tags'])) {
             $this->updatePostTag($post, $data);

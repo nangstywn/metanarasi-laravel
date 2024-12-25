@@ -6,6 +6,7 @@ use App\Constant\Status;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PostRequest;
 use App\Repositories\Eloquent\Admin\PostRepository;
+use Illuminate\Database\Eloquent\MissingAttributeException;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -45,9 +46,8 @@ class PostController extends Controller
             $this->post->update($uuid, $data);
             return response()->json(['message' => 'Post Berhasil diapprove!']);
         } catch (\Exception $e) {
-            toastr('Terjadi kesalahan, silahkan hubungi admin', 'error');
+            return response()->json(['message' => $e->getMessage()], 500);
         }
-        return redirect()->route('admin.post.index');
     }
 
     public function edit($uuid)

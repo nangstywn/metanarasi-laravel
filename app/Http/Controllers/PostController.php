@@ -48,11 +48,11 @@ class PostController extends Controller
         return redirect()->route('post.index');
     }
 
-    public function detail($uuid)
+    public function detail($slug)
     {
-        $post = $this->post->find($uuid);
+        $post = $this->post->findBySlug($slug);
         $categories = $this->post->categories();
-        $visitor = $this->post->storeVisitor(request()->cookie('visitor_uuid'), request()->ip(), $uuid);
+        $visitor = $this->post->storeVisitor(request()->cookie('visitor_uuid'), request()->ip(), $post->uuid);
         $comments = $this->post->getComments($post->id);
         $populars = $this->post->popular();
         return response(view('post.detail', compact('post', 'categories', 'comments', 'populars')))->cookie('visitor_uuid', $visitor);

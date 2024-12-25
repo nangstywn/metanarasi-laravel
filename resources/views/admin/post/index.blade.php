@@ -93,7 +93,7 @@
                                                 <tr>
                                                     <th width="30px"></th>
                                                     <th>Judul</th>
-                                                    <th>Kategory</th>
+                                                    <th>Kategori</th>
                                                     <th>Favourite</th>
                                                     <th>Editor Pick</th>
                                                     <th>Status</th>
@@ -106,16 +106,20 @@
                                                     <tr>
                                                         <td>
                                                             <div class="btn-group">
-                                                                <a href="#" class="btn btn-sm btn-success delete"
-                                                                    id="approve" data-id="{{ $post->uuid }}"><i
-                                                                        class="fa
+                                                                @if ($post->status == Status::DRAFT)
+                                                                    <a href="#" class="btn btn-sm btn-success delete"
+                                                                        id="approve" data-id="{{ $post->uuid }}"><i
+                                                                            class="fa
                                                                     fa-check"></i></a>
+                                                                @endif
                                                                 <a href="{{ route('admin.post.edit', $post->uuid) }}"
                                                                     class="btn btn-sm btn-warning"><i
                                                                         class="fa fa-edit"></i></a>
-                                                                <a href="#" class="btn btn-sm btn-danger"
-                                                                    id="delete" data-id="{{ $post->uuid }}"><i
-                                                                        class="fa fa-trash"></i></a>
+                                                                @if ($post->status == Status::DRAFT)
+                                                                    <a href="#" class="btn btn-sm btn-danger"
+                                                                        id="delete" data-id="{{ $post->uuid }}"><i
+                                                                            class="fa fa-trash"></i></a>
+                                                                @endif
                                                             </div>
                                                         </td>
                                                         <td>{{ $post->title ?? '-' }}</td>
@@ -263,6 +267,7 @@
                                     });
                                 },
                                 error: function(xhr, status, error) {
+                                    console.log(error);
                                     var errorMsg = xhr.responseJSON && xhr.responseJSON.message ?
                                         xhr.responseJSON.message :
                                         'An error occurred, please try again later.';
@@ -272,7 +277,7 @@
                                         showConfirmButton: false,
                                         timer: 1500
                                     }).then(function() {
-                                        location.reload()
+                                        // location.reload()
                                     });
                                 }
                             });

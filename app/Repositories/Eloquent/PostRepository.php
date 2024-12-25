@@ -24,6 +24,10 @@ class PostRepository
     {
         return Post::findOrFailByUuid($uuid);
     }
+    public function findBySlug(string $slug)
+    {
+        return Post::where('slug', $slug)->first();
+    }
 
     public function favourite()
     {
