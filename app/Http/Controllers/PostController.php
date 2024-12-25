@@ -22,10 +22,11 @@ class PostController extends Controller
         $favourite = $this->post->favourite();
         $editorPicks = $this->post->editorPick();
         $populars = $this->post->popular();
+        $latests = $this->post->latest();
         if (!$favourite) {
             $favourite = $this->post->getFirst();
         }
-        return view('welcome', compact('posts', 'favourite', 'editorPicks', 'populars', 'categories'));
+        return view('welcome', compact('posts', 'favourite', 'editorPicks', 'populars', 'categories', 'latests'));
     }
 
     public function detail($uuid)

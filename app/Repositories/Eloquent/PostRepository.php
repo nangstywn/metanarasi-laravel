@@ -38,7 +38,12 @@ class PostRepository
     }
     public function popular()
     {
-        return Post::withCount('visitors')->orderBy('visitors_count', 'desc')->take(4)->get();
+        return Post::withCount('visitors')->orderBy('visitors_count', 'desc')->take(3)->get();
+    }
+
+    public function latest()
+    {
+        return Post::latest()->take(4)->get();
     }
     public function categories()
     {
