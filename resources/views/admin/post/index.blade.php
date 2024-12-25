@@ -2,6 +2,8 @@
 @section('title', 'Post')
 @php
     use Illuminate\Support\Str;
+    use App\Constant\Status;
+    use App\Constant\IsActive;
 @endphp
 @section('content')
     <style>
@@ -41,6 +43,19 @@
                                                 <input type="hidden" name="category_text" class="category_text"
                                                     value="{{ Request::get('category_text') }}">
                                             </div>
+                                            <div class="col pl-0" style="width: 200px">
+                                                <select name="status" class="form-select" data-control="select2"
+                                                    data-allow-clear="true" data-placeholder="Pilih Status ...">
+                                                    <option value=""></option>
+                                                    @foreach (Status::labels() as $key => $val)
+                                                        <option value="{{ $key }}"
+                                                            {{ Request::get('status') == $key ? 'selected' : '' }}>
+                                                            {{ $val }}</option>
+                                                    @endforeach
+                                                </select>
+                                                <input type="hidden" name="category_text" class="category_text"
+                                                    value="{{ Request::get('category_text') }}">
+                                            </div>
                                             <div class="col pl-0" style="max-width: 200px">
                                                 <input type="text" name="q" value="{{ Request::get('q') }}"
                                                     class="form-control" placeholder="Cari Judul">
@@ -76,12 +91,13 @@
                                         <table class="table table-row-bordered gs-7" id="datatable">
                                             <thead>
                                                 <tr>
-                                                    <th width="50px"></th>
+                                                    <th width="30px"></th>
                                                     <th>Judul</th>
-                                                    <th>Konten</th>
                                                     <th>Kategory</th>
                                                     <th>Favourite</th>
                                                     <th>Editor Pick</th>
+                                                    <th>Status</th>
+                                                    <th>Is Active</th>
                                                     <th>Thumbnail</th>
                                                 </tr>
                                             </thead>
@@ -90,17 +106,20 @@
                                                     <tr>
                                                         <td>
                                                             <div class="btn-group">
-                                                                <a href="" class="btn btn-sm btn-primary"><i
-                                                                        class="fa fa-eye"></i></a>
+                                                                <a href="#" class="btn btn-sm btn-success delete"
+                                                                    id="approve" data-id="{{ $post->uuid }}"><i
+                                                                        class="fa
+                                                                    fa-check"></i></a>
                                                                 <a href="{{ route('admin.post.edit', $post->uuid) }}"
                                                                     class="btn btn-sm btn-warning"><i
                                                                         class="fa fa-edit"></i></a>
-                                                                <a href="#" class="btn btn-sm btn-danger delete"
-                                                                    data-id=""><i class="fa fa-trash"></i></a>
+                                                                <a href="#" class="btn btn-sm btn-danger"
+                                                                    id="delete" data-id="{{ $post->uuid }}"><i
+                                                                        class="fa fa-trash"></i></a>
                                                             </div>
                                                         </td>
                                                         <td>{{ $post->title ?? '-' }}</td>
-                                                        <td>{!! Str::limit($post->content, 200) ?? '-' !!}</td>
+                                                        {{-- <td>{!! Str::limit($post->content, 200) ?? '-' !!}</td> --}}
                                                         <td>{{ optional($post->category)->name ?? '-' }}</td>
                                                         <td>
                                                             <div class="form-check form-switch">
@@ -124,13 +143,15 @@
                                                                     value="{{ $post->id }}">
                                                             </div>
                                                         </td>
+                                                        <td>{!! Status::toHTML($post->status) !!}</td>
+                                                        <td>{!! IsActive::toHTML($post->is_active) !!}</td>
                                                         <td><img src="{{ $post->attachment_url }}" height="100"
                                                                 width="100" alt="">
                                                         </td>
                                                     </tr>
                                                 @empty
                                                     <tr>
-                                                        <td colspan="7" class="text-center">Tidak ada data</td>
+                                                        <td colspan="8" class="text-center">Tidak ada data</td>
                                                     </tr>
                                                 @endforelse
                                             </tbody>
@@ -205,5 +226,61 @@
                     $('.category_text').val(e.params.data.text);
                 })
             })
+
+            function handleRequest(actionType, url) {
+                return function(e) {
+                    e.preventDefault();
+                    let id = $(this).attr('data-id');
+                    var token = $("meta[name='csrf-token']").attr("content");
+                    url = url.replace(':uuid', id);
+
+                    Swal.fire({
+                        title: `Yakin ?`,
+                        text: `Ingin ${actionType} data ini ?`,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#28A745',
+                        cancelButtonColor: '#DC3545',
+                        cancelButtonText: 'Tidak, Cancel!',
+                        confirmButtonText: `Ya, ${actionType}!`,
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                type: actionType === 'Hapus' ? 'DELETE' : 'POST',
+                                url: url,
+                                data: {
+                                    "_token": token
+                                },
+                                success: function(data) {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: data.message,
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    }).then(function() {
+                                        location.reload()
+                                    });
+                                },
+                                error: function(xhr, status, error) {
+                                    var errorMsg = xhr.responseJSON && xhr.responseJSON.message ?
+                                        xhr.responseJSON.message :
+                                        'An error occurred, please try again later.';
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: errorMsg,
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    }).then(function() {
+                                        location.reload()
+                                    });
+                                }
+                            });
+                        }
+                    });
+                };
+            }
+            $('#delete').click(handleRequest('Hapus', "{{ route('admin.post.delete', ':uuid') }}"));
+            $('#approve').click(handleRequest('Approve', "{{ route('admin.post.approve', ':uuid') }}"));
         </script>
     @endsection

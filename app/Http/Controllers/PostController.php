@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostCreateRequest;
 use App\Models\Post;
 use App\Repositories\Eloquent\PostRepository;
 use Illuminate\Http\Request;
@@ -27,6 +28,24 @@ class PostController extends Controller
             $favourite = $this->post->getFirst();
         }
         return view('welcome', compact('posts', 'favourite', 'editorPicks', 'populars', 'categories', 'latests'));
+    }
+
+    public function create()
+    {
+        $categories = $this->post->categories();
+        return view('post.create', compact('categories'));
+    }
+
+    public function store(PostCreateRequest $reqeuest)
+    {
+        try {
+            $data = $reqeuest->data();
+            $this->post->store($data);
+            toastr('Post Berhasil ditambahkan!, Silahkan tunggu untuk di verifikasi');
+        } catch (\Exception $e) {
+            toastr('Terjadi kesalahan, silahkan hubungi admin', 'error');
+        }
+        return redirect()->route('post.index');
     }
 
     public function detail($uuid)

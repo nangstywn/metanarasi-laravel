@@ -41,9 +41,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
         route::get('', 'PostController@index')->name('index');
         route::get('create', 'PostController@create')->name('create');
         route::post('', 'PostController@store')->name('store');
+        route::post('{uuid}/approve', 'PostController@approve')->name('approve');
         route::get('{uuid}/edit', 'PostController@edit')->name('edit');
         route::put('{uuid}', 'PostController@update')->name('update');
-        route::delete('{uuid}', 'PostController@update')->name('update');
+        route::delete('{uuid}', 'PostController@delete')->name('delete');
     });
 
     Route::group(['prefix' => 'json', 'as' => 'json.'], function () {
@@ -55,6 +56,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
 Route::group(['prefix' => 'post', 'as' => 'post.'], function () {
     route::get('', 'PostController@index')->name('index');
+    route::get('create', 'PostController@create')->name('create');
+    route::post('', 'PostController@store')->name('store');
     route::get('{uuid}/detail', 'PostController@detail')->name('detail');
     route::get('setCookie', 'PostController@setCookie');
     route::get('getCookie', 'PostController@getCookie');

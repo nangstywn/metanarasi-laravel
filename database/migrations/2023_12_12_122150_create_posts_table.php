@@ -15,11 +15,15 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('uuid');
             $table->string('title')->nullable();
+            $table->string('slug')->unique();
+            $table->string('author')->nullable();
+            $table->string('email')->nullable();
             $table->unsignedInteger('category_id')->nullable();
             $table->longText('content')->nullable();
             $table->string('attachment')->nullable();
             $table->tinyInteger('favourite')->nullable();
             $table->tinyInteger('editor_pick')->nullable();
+            $table->tinyInteger('is_active')->nullable();
             $table->tinyInteger('status')->nullable();
             $table->unsignedInteger('viewer')->nullable();
             $table->unsignedInteger('created_by')->nullable();

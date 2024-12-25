@@ -125,7 +125,7 @@
                         <h3 class="section-title">Editor’s Pick</h3>
                         <img src="{{ asset('') }}assets/images/wave.svg" class="wave" alt="wave" />
                     </div>
-                    @if (!empty($editorPicks))
+                    @if ($editorPicks->isNotEmpty())
                         <div class="padding-30 rounded bordered">
                             <div class="row gy-5">
                                 <div class="col-sm-6">

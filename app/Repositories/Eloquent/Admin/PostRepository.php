@@ -30,17 +30,19 @@ class PostRepository
     public function update(string $uuid, array $data)
     {
         $post = $this->find($uuid);
-        return $post->update($data['post']);
-        return $this->updatePostTag($post, $data);
+        $post->update($data['post']);
+        if (isset($data['tags'])) {
+            $this->updatePostTag($post, $data);
+        }
+        return $post;
     }
-    // public function delete(string $uuid)
-    // {
-    //     $material = Material::withCount('ritase')->where('uuid', $uuid)->first();
-    //     if ($material->ritase_count > 0) {
-    //         throw new ModelHasReferenceException('Data material tidak bisa dihapus, karena menjadi referensi data lain');
-    //     }
-    //     return $material->delete();
-    // }
+    public function delete(string $uuid)
+    {
+        $post = Post::where('uuid', $uuid)->first();
+        $post->comments()->delete();
+        $post->tags()->detach();
+        return $post->delete();
+    }
 
     public function updatePostTag($post, $data)
     {

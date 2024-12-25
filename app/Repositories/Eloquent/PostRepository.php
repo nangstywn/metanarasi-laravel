@@ -2,6 +2,8 @@
 
 namespace App\Repositories\Eloquent;
 
+use App\Constant\IsActive;
+use App\Constant\Status;
 use App\Exceptions\ModelHasReferenceException;
 use App\Models\Category;
 use App\Models\Comment;
@@ -15,7 +17,7 @@ class PostRepository
 {
     public function fetch()
     {
-        return Post::latest()->get();
+        return Post::latest()->where([['status', Status::APPROVED], ['is_active', IsActive::YES]])->get();
     }
 
     public function find(string $uuid)
@@ -25,25 +27,25 @@ class PostRepository
 
     public function favourite()
     {
-        return Post::where('favourite', 1)->first();
+        return Post::where('favourite', 1)->where([['status', Status::APPROVED], ['is_active', IsActive::YES]])->first();
     }
     public function getFirst()
     {
-        return Post::first();
+        return Post::where([['status', Status::APPROVED], ['is_active', IsActive::YES]])->first();
     }
 
     public function editorPick()
     {
-        return Post::where('editor_pick', 1)->take(5)->get();
+        return Post::where('editor_pick', 1)->where([['status', Status::APPROVED], ['is_active', IsActive::YES]])->take(5)->get();
     }
     public function popular()
     {
-        return Post::withCount('visitors')->orderBy('visitors_count', 'desc')->take(3)->get();
+        return Post::withCount('visitors')->where([['status', Status::APPROVED], ['is_active', IsActive::YES]])->orderBy('visitors_count', 'desc')->take(3)->get();
     }
 
     public function latest()
     {
-        return Post::latest()->take(4)->get();
+        return Post::latest()->where([['status', Status::APPROVED], ['is_active', IsActive::YES]])->take(4)->get();
     }
     public function categories()
     {
@@ -53,6 +55,11 @@ class PostRepository
     public function getComments($postId)
     {
         return Comment::with('post')->where('post_id', $postId)->get();
+    }
+
+    public function store(array $data)
+    {
+        return Post::create($data['post']);
     }
 
 
