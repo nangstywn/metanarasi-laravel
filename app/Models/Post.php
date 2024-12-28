@@ -46,7 +46,7 @@ class Post extends Model
         parent::boot();
         $user = Auth::user();
         self::creating(function ($model) use ($user) {
-            $model->created_by = $user->id ?? null;
+            $model->created_by = $model->created_by ?? null;
         });
 
         self::updating(function ($model) use ($user) {

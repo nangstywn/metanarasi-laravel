@@ -28,13 +28,8 @@
                                                 class="author" alt="author" />{{ optional($post->creator)->name ?? '-' }}
                                         </a>
                                     </li>
-                                    {{-- <li class="list-inline-item"><a href="#">Trending</a></li> --}}
-                                    <li class="list-inline-item"><span
-                                            style="padding-right: 5px">{{ convert_date($post->created_at) }}</span> |
-                                        <span class=""
-                                            style="padding-left: 5px">{{ $post->visitors->count() . ' views' }}</span>
-                                    </li>
-
+                                    <li class="list-inline-item">{{ convert_date($post->created_at) }}</li>
+                                    <li class="list-inline-item">{{ $post->visitors->count() . ' views' }}</li>
                                 </ul>
                             </div>
                             <!-- featured image -->

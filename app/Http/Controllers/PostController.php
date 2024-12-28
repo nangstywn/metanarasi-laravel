@@ -38,13 +38,13 @@ class PostController extends Controller
 
     public function store(PostCreateRequest $reqeuest)
     {
-        try {
-            $data = $reqeuest->data();
-            $this->post->store($data);
-            toastr('Post Berhasil ditambahkan!, Silahkan tunggu untuk di verifikasi');
-        } catch (\Exception $e) {
-            toastr('Terjadi kesalahan, silahkan hubungi admin', 'error');
-        }
+        // try {
+        $data = $reqeuest->data();
+        $this->post->store($data);
+        toastr('Post Berhasil ditambahkan!, Silahkan tunggu untuk di verifikasi');
+        // } catch (\Exception $e) {
+        //     toastr('Terjadi kesalahan, silahkan hubungi admin', 'error');
+        // }
         return redirect()->route('post.index');
     }
 

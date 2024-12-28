@@ -17,7 +17,7 @@
                             <span class="date">{{ convert_date($comment->created_at) }}
                                 {{ convert_time($comment->created_at) }}</span>
                             <p>{{ $comment->comment }}</p>
-                            <a href="#" class="btn btn-default btn-sm">Reply</a>
+                            {{-- <a href="#" class="btn btn-default btn-sm">Reply</a> --}}
                         </div>
                     </li>
                     <!-- comment item -->

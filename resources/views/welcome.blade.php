@@ -17,11 +17,11 @@
                                 <ul class="meta list-inline mb-0">
                                     <li class="list-inline-item"><a
                                             href="#">{{ optional($favourite->creator)->name ?? '-' }}</a></li>
-                                    <li class="list-inline-item"><span style="padding-right: 5px">
-                                            {{ convert_date($favourite->created_at) }}</span>
-                                        |
-                                        <span class=""
-                                            style="padding-left: 5px">{{ $favourite->visitors->count() . ' views' }}</span>
+                                    <li class="list-inline-item">
+                                        {{ convert_date($favourite->created_at) }}
+                                    </li>
+                                    <li class="list-inline-item">
+                                        {{ $favourite->visitors->count() . ' views' }}
                                     </li>
                                 </ul>
                             </div>

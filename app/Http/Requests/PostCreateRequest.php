@@ -77,12 +77,14 @@ class PostCreateRequest extends FormRequest
 
         $data['post'] = [
             'title' => $this->title,
-            'author' => $this->author,
-            'email' => $this->email,
             'content' => $this->contents,
             'is_active' => IsActive::YES,
             'status' => Status::DRAFT,
             'attachment' => $this->getAttachment(),
+        ];
+        $data['user'] = [
+            'name' => $this->author,
+            'email' => $this->email,
         ];
         return $data;
     }

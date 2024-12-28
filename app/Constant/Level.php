@@ -2,7 +2,7 @@
 
 namespace App\Constant;
 
-class Role
+class Level
 {
     const ADMIN = 1;
     const USER = 2;

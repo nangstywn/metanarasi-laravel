@@ -1,3 +1,4 @@
+@section('title', 'Tag')
 <div id="kt_content_container" class="container-xxl">
     <div class="row">
         <div class="col">

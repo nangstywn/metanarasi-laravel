@@ -8,6 +8,7 @@ use App\Exceptions\ModelHasReferenceException;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Post;
+use App\Models\User;
 use App\Models\Visitor;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cookie;
@@ -63,6 +64,13 @@ class PostRepository
 
     public function store(array $data)
     {
+        if ($data['user']) {
+            $user = User::where('name', $data['user']['name'])->where('email', $data['user']['email'])->first();
+            if (!$user) {
+                $user = User::create($data['user']);
+            }
+            $data['post']['created_by'] = $user->id;
+        }
         return Post::create($data['post']);
     }
 
