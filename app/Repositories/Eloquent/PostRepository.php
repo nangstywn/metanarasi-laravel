@@ -30,6 +30,15 @@ class PostRepository
         return Post::where('slug', $slug)->first();
     }
 
+    public function getByCategory($categoryId, $page = null)
+    {
+        $posts = Post::where('category_id', $categoryId)->where([['status', Status::APPROVED], ['is_active', IsActive::YES]]);
+        if ($page) {
+            return $posts->paginate($page);
+        }
+        return $posts->get();
+    }
+
     public function favourite()
     {
         return Post::where('favourite', 1)->where([['status', Status::APPROVED], ['is_active', IsActive::YES]])->first();

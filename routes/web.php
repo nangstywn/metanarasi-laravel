@@ -66,6 +66,10 @@ Route::group(['prefix' => 'post', 'as' => 'post.'], function () {
     route::get('/{slug}', 'PostController@detail')->name('detail');
     route::get('setCookie', 'PostController@setCookie');
     route::get('getCookie', 'PostController@getCookie');
+
+    Route::group(['prefix' => 'category', 'as' => 'category.'], function () {
+        route::get('{uuid}', 'PostController@category')->name('index');
+    });
 });
 
 Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {

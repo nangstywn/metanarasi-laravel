@@ -6,7 +6,8 @@
     <div class="widget-content">
         <ul class="list">
             @foreach ($categories as $category)
-                <li><a href="#">{{ $category->name }}</a><span>({{ $category->posts_count }})</span>
+                <li><a
+                        href="{{ route('post.category.index', $category->uuid) }}">{{ $category->name }}</a><span>({{ $category->posts_count }})</span>
                 </li>
             @endforeach
         </ul>

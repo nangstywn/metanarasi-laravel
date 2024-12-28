@@ -90,7 +90,8 @@
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#">Pages</a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="category.html">Category</a></li>
+                                    <li><a class="dropdown-item" href="#">Category</a>
+                                    </li>
                                     <li><a class="dropdown-item" href="blog-single.html">Blog Single</a></li>
                                     <li><a class="dropdown-item" href="blog-single-alt.html">Blog Single Alt</a></li>
                                     <li><a class="dropdown-item" href="about.html">About</a></li>
