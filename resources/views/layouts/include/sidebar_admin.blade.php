@@ -1,5 +1,5 @@
 <div class="menu-item">
-    <a class="menu-link" href="">
+    <a class="menu-link {{ Route::is('admin.user.*') ? 'active' : '' }}" href="{{ route('admin.user.index') }}">
         <span class="menu-icon">
             <!--begin::Svg Icon | path: /var/www/preview.keenthemes.com/kt-products/docs/metronic/html/releases/2022-10-09-043348/core/html/src/media/icons/duotune/communication/com013.svg-->
             <span class="svg-icon svg-icon-muted svg-icon-2x"><svg width="24" height="24" viewBox="0 0 24 24"

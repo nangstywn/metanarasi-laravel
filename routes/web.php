@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,6 +24,10 @@ Route::get('/post', function () {
 });
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => 'auth'], function () {
+    //User
+    Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
+        route::get('', 'UserController@index')->name('index');
+    });
     //Category
     Route::group(['prefix' => 'category', 'as' => 'category.'], function () {
         route::get('', Category::class)->name('index');

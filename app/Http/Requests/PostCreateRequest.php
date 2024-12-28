@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Constant\IsActive;
+use App\Constant\Level;
 use App\Constant\Status;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\App;
@@ -80,6 +81,7 @@ class PostCreateRequest extends FormRequest
             'content' => $this->contents,
             'is_active' => IsActive::YES,
             'status' => Status::DRAFT,
+            'level' => Level::USER,
             'attachment' => $this->getAttachment(),
         ];
         $data['user'] = [
