@@ -20,7 +20,7 @@ class ResourceController extends Controller
 
         try {
             $post = $this->post->storeComment($request->data(), $uuid);
-            $comments = $this->post->getComments($post->id);
+            $comments = $this->post->getComments($post->post_id);
             return view('post.comment', compact('comments'))->render();
         } catch (\Exception $e) {
             return response()->json([
