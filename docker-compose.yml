@@ -1,5 +1,6 @@
 services:
     php:
+        container_name: app
         build:
             context: .
             target: php
@@ -13,39 +14,55 @@ services:
         ports:
             - 8000:8000
         depends_on:
-            - database
+            - mysql
         networks:
             - laravel
             
-    # webserver:
-    #     image: nginx:alpine
-    #     container_name: laravel_webserver
-    #     working_dir: /var/www
-    #     volumes:
-    #         - ./:/var/www
-    #         - ./docker/nginx/conf.d:/etc/nginx/conf.d
-    #     ports:
-    #         - "8000:80"
-    #     networks:
-    #         - laravel
+    webserver:
+        image: nginx:alpine
+        container_name: laravel_webserver
+        working_dir: /var/www
+        volumes:
+            - ./:/var/www
+            - ./docker/nginx/conf.d:/etc/nginx/conf.d
+        depends_on:
+            - php
+        ports:
+            - "81:80"
+        networks:
+            - laravel
 
-    database:
+    mysql:
         image: mysql:8.0
-        container_name: laravel_db
+        container_name: database
         environment:
-            MYSQL_USER: "nang"
-            MYSQL_PASSWORD: "root" 
-            MYSQL_ROOT_PASSWORD: "root" 
-            MYSQL_DATABASE: ${DB_DATABASE}
+             MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+             MYSQL_DATABASE: ${DB_DATABASE}
+             MYSQL_USER: ${DB_USERNAME}
+             MYSQL_PASSWORD: ${DB_PASSWORD}
         volumes:
             - dbdata:/var/lib/mysql
         ports:
             - "8306:3306"
         networks:
             - laravel
+    
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: phpmyadmin
+        environment:
+            PMA_HOST: mysql
+            PMA_PORT: 3306
+        ports:
+            - "8080:80"
+        depends_on:
+            - mysql
+        networks:
+            - laravel
 
 networks:
     laravel:
+        driver: bridge
 
 volumes:
     dbdata:

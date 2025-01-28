@@ -11,6 +11,8 @@ else
 fi
 echo "Waiting for MySQL to be ready..."
 sleep 15
+php artisan config:clear
+php artisan cache:clear
 php artisan migrate
 php artisan db:seed
 php artisan key:generate

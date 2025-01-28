@@ -10,7 +10,9 @@ COPY . .
 
 COPY --from=composer:2.5.8 /usr/bin/composer /usr/bin/composer
 
-ENV PORT=8000
-COPY docker/entrypoint.sh /docker/entrypoint.sh
-RUN chmod +x /docker/entrypoint.sh
-ENTRYPOINT ["/docker/entrypoint.sh"]
+# Set correct permissions
+RUN chown -R www-data:www-data /var/www \
+    && chmod -R 755 /var/www/storage /var/www/bootstrap/cache
+
+EXPOSE 8000
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
